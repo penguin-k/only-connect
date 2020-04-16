@@ -1,0 +1,51 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Only Connect Live - Host</title>
+
+  <link rel="stylesheet" href="style.css?v=1.0">
+  <script src="display-script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+
+</head>
+
+<body onload="pageLoadInit()">
+  <div id="missing-vowels-holder">
+    <div id="missing-vowels-title">
+      Missing vowels
+    </div>
+    <br>
+    <div id="missing-vowels-question">
+      Waiting for host...
+    </div>  
+    <br>
+    <div id="missing-vowels-tips" style="display:none;">
+      Spacing corrected
+    </div>  
+  </div>
+
+  <div id="score-table-holder">
+    <div id="score-table-inner">
+      <div id="score-team-1" class="score-box">
+        <span id="score-team-1-name" class="score-text-holder score-text-name">
+          Team 1 
+        </span>
+        <span id="score-team-1-score" class="score-text-holder score-text-score">
+          0
+        </span>
+      </div>
+      <div id="score-team-2" class="score-box">
+        <span id="score-team-2-score" class="score-text-holder score-text-score">
+          0
+        </span>
+        <span id="score-team-2-name" class="score-text-holder score-text-name">
+          Team 2
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

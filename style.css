@@ -1,0 +1,138 @@
+.question-boxes-container {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: DodgerBlue;
+  justify-content: center;
+}
+
+.question-boxes-container > div {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+#missing-vowels-title {
+  /*position: absolute;
+  top: 20%;
+  left: 5vw;
+  right: 5vw;*/
+  background: linear-gradient(0deg, rgba(8,27,60,1) 0%, rgba(18,56,121,1) 100%);
+  background-attachment: fixed;
+  color: white;
+  padding: 2vw;
+  border-radius: 25px;
+  font-size: 60px;
+  text-align: center;
+  /*height: 8vh;*/
+}
+
+#missing-vowels-question {
+  /*position: absolute;
+  top: 30%;
+  left: 5vw;
+  right: 5vw;*/
+  background: linear-gradient(0deg, rgba(97,145,209,1) 0%, rgba(181,216,244,1) 100%);
+  background-attachment: fixed;
+  color: #121212;
+  padding: 2vw;
+  border-radius: 25px;
+  font-size: 60px;
+  text-align: center;
+  /*height: 8vh;*/
+}
+
+#missing-vowels-tips {
+  background: linear-gradient(0deg, rgba(97,209,148,1) 0%, rgba(129,228,223,1));
+  background-attachment: fixed;
+  color: #121212;
+  padding: 1vw;
+  border-radius: 25px;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: center;
+}
+
+#missing-vowels-holder {
+  position: absolute;
+  top: 10%;
+  left: 5vw;
+  right: 5vw;
+}
+
+#score-table-holder {
+  position: absolute;
+  bottom: 10%;
+  left: 5vw;
+  right: 5vw;
+  height: 120px;
+}
+
+#score-table-inner {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+}
+
+.score-box {
+  background: linear-gradient(0deg, rgba(8,27,60,0.9) 0%, rgba(18,56,121,0.9) 100%);
+  background-attachment: fixed;
+  color: white;
+  border-radius: 25px;
+  font-size: 40px;
+  height: 80px;
+  width: 35vw;
+  margin: 0px;
+  position: absolute;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  line-height: 75px;
+}
+
+#score-team-1 {
+  left: 0px;
+}
+
+#score-team-2 {
+  right: 0px;
+}
+
+.score-text-holder {
+  position: relative;
+  top: 0;
+  bottom: 0;
+}
+
+#score-team-1-name, #score-team-2-score {
+  text-align: left;
+  left: 0;
+  float: left;
+}
+
+#score-team-1-score, #score-team-2-name {
+  text-align: right;
+  right: 0;
+  float: right;
+}
+
+.score-text-name {
+  color: #aaaaaa;
+}
+
+.score-text-score {
+  color: white;
+  font-weight: 800;
+}
+
+body {
+  background: linear-gradient(22deg, rgba(53,82,140,1) 0%, rgba(227,237,239,1) 100%);
+  background-attachment: fixed;
+  font-family: 'IBM Plex Sans', sans-serif;
+}

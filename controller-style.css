@@ -1,0 +1,414 @@
+.question-boxes-container {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: DodgerBlue;
+  justify-content: center;
+}
+
+.question-boxes-container > div {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+#missing-vowels-title {
+  background: gray;
+  background-attachment: fixed;
+  color: white;
+  padding: 1vw;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+}
+
+#missing-vowels-question {
+  border: solid gray;
+  color: #121212;
+  padding: 1vw;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+}
+/*#missing-vowels-question:hover {
+  background: #b3b3b3;
+}
+#missing-vowels-question:active {
+  background: #333333;
+}*/
+
+#missing-vowels-answer {
+  background: #99ff99;
+  background-attachment: fixed;
+  border: solid #006600;
+  color: #121212;
+  padding: 1vw;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 700;
+}
+/*#missing-vowels-answer:hover {
+  background: #6bb36b;
+}
+#missing-vowels-answer:active {
+  background: #333333;
+}*/
+
+#missing-vowels-command {
+  background: #ffff99;
+  background-attachment: fixed;
+  border: solid #000000;
+  color: #121212;
+  padding: 1vw;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+}
+
+#missing-vowels-holder {
+  position: absolute;
+  top: 5%;
+  left: 5vw;
+  right: 5vw;
+}
+
+
+#action-buttons-inner {
+  /*position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0px;
+  width: 100%;
+  height: 100%;*/
+  padding: 0px;
+}
+
+.action-button {
+  width: 35vw;
+  margin: 0px;
+  /*position: absolute;*/
+  padding: 1vw;
+  background-attachment: fixed;
+  border: solid #000000;
+  color: #121212;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+#next-question-button {
+  left: 0px;
+  float: left;
+}
+#next-question-button.buttonDisabled {
+  color: gray;
+  border: solid gray;
+}
+#next-question-button:not(.buttonDisabled) {
+  background: #99ff99;
+}
+#next-question-button:not(.buttonDisabled):hover {
+  background: #6bb36b;
+}
+#next-question-button:not(.buttonDisabled):active {
+  background: #333333;
+}
+
+#skip-button {
+  right: 0px;
+  float: right;
+}
+#skip-button.buttonDisabled {
+  color: gray;
+  border: solid gray;
+}
+#skip-button:not(.buttonDisabled) {
+  background: #ffa599;
+}
+#skip-button:not(.buttonDisabled):hover {
+  background: #b3746b;
+}
+#skip-button:not(.buttonDisabled):active {
+  background: #33211f;
+}
+
+
+#score-buttons-inner {
+  /*position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0px;
+  width: 100%;
+  height: 100%;*/
+  padding: 0px;
+}
+
+.score-button {
+  width: 35vw;
+  margin: 0px;
+  /*position: absolute;*/
+  padding: 1vw;
+  background-attachment: fixed;
+  border: solid #000000;
+  color: #121212;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+#team-1-points-button {
+  left: 0px;
+  float: left;
+}
+#team-1-points-button.buttonDisabled {
+  color: gray;
+  border: solid gray;
+}
+#team-1-points-button:not(.buttonDisabled) {
+  background: #a6d1ff;
+}
+#team-1-points-button:not(.buttonDisabled):hover {
+  background: #7492b3;
+}
+#team-1-points-button:not(.buttonDisabled):active {
+  background: #212a33;
+}
+
+#team-2-points-button {
+  right: 0px;
+  float: right;
+}
+#team-2-points-button.buttonDisabled {
+  color: gray;
+  border: solid gray;
+}
+#team-2-points-button:not(.buttonDisabled) {
+  background: #a6d1ff;
+}
+#team-2-points-button:not(.buttonDisabled):hover {
+  background: #7492b3;
+}
+#team-2-points-button:not(.buttonDisabled):active {
+  background: #212a33;
+}
+
+
+.schedule-button {
+  width: 35vw;
+  margin: 0px;
+  /*position: absolute;*/
+  padding: 1vw;
+  background-attachment: fixed;
+  border: solid #000000;
+  color: #121212;
+  border-radius: 25px;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 5px;
+}
+
+#load-file-button {
+  left: 0px;
+  float: left;
+}
+#load-file-button.buttonDisabled {
+  color: gray;
+  border: solid gray;
+}
+#load-file-button:not(.buttonDisabled) {
+  background: #a6d1ff;
+}
+#load-file-button:not(.buttonDisabled):hover {
+  background: #7492b3;
+}
+#load-file-button:not(.buttonDisabled):active {
+  background: #212a33;
+}
+
+#change-schedule-button {
+  right: 0px;
+  float: right;
+}
+#change-schedule-button.buttonDisabled {
+  color: gray;
+  border: solid gray;
+}
+#change-schedule-button:not(.buttonDisabled) {
+  background: #a6d1ff;
+}
+#change-schedule-button:not(.buttonDisabled):hover {
+  background: #7492b3;
+}
+#change-schedule-button:not(.buttonDisabled):active {
+  background: #212a33;
+}
+
+
+#score-table-holder {
+  position: absolute;
+  bottom: 0;
+  left: 5vw;
+  right: 5vw;
+  height: 60px;
+}
+
+#score-table-inner {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+}
+
+.score-box {
+  background: linear-gradient(0deg, rgba(8,27,60,0.9) 0%, rgba(18,56,121,0.9) 100%);
+  background-attachment: fixed;
+  color: white;
+  border-radius: 25px;
+  font-size: 20px;
+  /*height: 80px;*/
+  width: 35vw;
+  margin: 0px;
+  position: absolute;
+  padding: 1vw;
+  /*padding-left: 2vw;
+  padding-right: 2vw;
+  line-height: 75px;*/
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select:none; 
+  user-select:none;
+  -o-user-select:none;
+}
+
+#score-team-1 {
+  left: 0px;
+}
+
+#score-team-2 {
+  right: 0px;
+}
+
+.score-text-holder {
+  position: relative;
+  top: 0;
+  bottom: 0;
+}
+
+#score-team-1-name, #score-team-2-score {
+  text-align: left;
+  left: 1vw;
+  float: left;
+}
+
+#score-team-1-score, #score-team-2-name {
+  text-align: right;
+  right: 1vw;
+  float: right;
+}
+
+.score-text-name {
+  color: #aaaaaa;
+}
+
+.score-text-score {
+  color: white;
+  font-weight: 800;
+}
+
+#schedule-window {
+  background-color: #dddddd;
+  border: solid #000000;
+  position: absolute;
+  z-index: 100;
+  top: 7vh;
+  bottom: 7vh;
+  left: 7vw;
+  right: 7vw;
+  display: none;
+}
+
+.window-title {
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 10px;
+}
+#schedule-bank-window, #schedule-selected-window {
+  width: 38vw;
+  margin: 0px;
+  height: 80%;
+  overflow: auto;
+  border-top: solid #000000;
+  border-bottom: solid #000000;
+}
+#schedule-bank-window {
+  float: left;
+  background-color: #a6d1ff;
+  border-right: solid #000000;
+}
+#schedule-selected-window {
+  float: right;
+  background-color: #99ff99;
+  border-left: solid #000000;
+}
+.schedule-option {
+  background-color: white;
+  border: solid black 2px;
+  margin: 2% 5% 2% 5%;
+  padding: 1%;
+}
+.schedule-option:hover:not(.schedule-option-seen):not(.schedule-option-selected) {
+  background-color: #999999;
+}
+.schedule-option:active:not(.schedule-option-seen):not(.schedule-option-selected) {
+  background-color: #444444;
+}
+.schedule-option-seen {
+  background-color: #222222;
+  color: #cccccc;
+}
+.schedule-option-selected {
+  background-color: #2b5682;
+  color: white;
+}
+.schedule-window-button {
+  margin-left: 40vw;
+  margin-right: 40vw;
+  color: black;
+  font-weight: 700;
+  font-size: 20px;
+  padding: 5px;
+  text-align: center;
+  background: #a6d1ff;
+  border: solid black 2px;
+  margin-top: 10px;
+}
+.schedule-window-button:hover {
+  background: #7492b3;
+}
+.schedule-window-button:active {
+  background: #212a33;
+}
+.schedule-window-button.button-mode-active {
+  background: #fff56d;
+}
+
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select:none; 
+  user-select:none;
+  -o-user-select:none;
+}

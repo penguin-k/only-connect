@@ -1,0 +1,86 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Only Connect Live - Controller</title>
+
+  <link rel="stylesheet" href="controller-style.css?v=1.0">
+  <script src="controller-script.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+
+</head>
+
+<body onload="pageLoadInit()">
+  <div id="missing-vowels-holder">
+    <div id="missing-vowels-title">
+      Controller screen
+    </div>
+    <br>
+    <div id="missing-vowels-question"> <!-- onclick="moveToNextQuestion()" -->
+      L key to load file
+    </div>
+    <br>
+    <div id="missing-vowels-answer"> <!-- onclick="revealAnswer()" -->
+      Not ready
+    </div> 
+    <br>
+    <div id="missing-vowels-command" style="display:none;">
+      Press 1 or 2 to select team
+    </div> 
+    <br>
+    <div id="next-question-button" class="action-button" onclick="moveToNextQuestion()">
+      Start (N)
+    </div>
+    <div id="skip-button" class="action-button" onclick="revealAnswer()">
+      Reveal (R)
+    </div>
+    <br><br>
+    <div id="team-1-points-button" class="score-button" onclick="awardDefaultPoints(1)">
+      Team 1 correct
+    </div>
+    <div id="team-2-points-button" class="score-button" onclick="awardDefaultPoints(2)">
+      Team 2 correct
+    </div>
+    <br><br>
+    <div id="load-file-button" class="schedule-button" onclick="promptFileUpload()">
+      Load new file
+    </div>
+    <div id="change-schedule-button" class="schedule-button" onclick="showScheduleWindow()">
+      Adjust schedule
+    </div>
+  </div>
+
+  <div id="score-table-holder">
+    <div id="score-table-inner">
+      <div id="score-team-1" class="score-box" onclick="updateTeamName(1, 1)">
+        <span id="score-team-1-name" class="score-text-holder score-text-name">
+          Team 1 
+        </span>
+        <span id="score-team-1-score" class="score-text-holder score-text-score">
+          0
+        </span>
+      </div>
+      <div id="score-team-2" class="score-box" onclick="updateTeamName(2, 1)">
+        <span id="score-team-2-score" class="score-text-holder score-text-score">
+          0
+        </span>
+        <span id="score-team-2-name" class="score-text-holder score-text-name">
+          Team 2
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div id="schedule-window">
+    <h1 class="window-title">Game schedule</h1>
+    <div id="schedule-bank-window">
+    </div>
+    <div id="schedule-selected-window">
+    </div>
+    <div id="schedule-window-first-button" class="schedule-window-button" onclick="engageNextModeSchedule(this)">⤒</div>
+    <div id="schedule-window-last-button" class="schedule-window-button" onclick="engageLastModeSchedule(this)">⤓</div>
+  </div>
+</body>
+</html>
