@@ -1,0 +1,85 @@
+Category,Missing vowels,Missing vowels capitalised,Answer
+Instruments from the string family,Vln,VLN,Violin
+Instruments from the string family,Cll,CLL,Cello
+Instruments from the string family,Vl,VL,Viola
+Instruments from the string family,Db lb ss,DB LB SS,Double bass
+Consecutive numbers in ascending order,sv ngh tnn,SV NGH TNN,seven eight nine
+Consecutive numbers in ascending order,twt hr fr,TWT HR FR,two three four
+Consecutive numbers in ascending order,frt nff tnsx tn,FRT NFF TNSX TN,fourteen fifteen sixteen
+Consecutive numbers in ascending order,tnl vnt wlv,TNL VNT WLV,ten eleven twelve
+Sides on coins,Sv nn fft yp nc,SV NN FFT YP NC,Seven on a fifty pence
+Sides on coins,Twl vn npn d,TWL VN NPN D,Twelve on a one pound
+Sides on coins,Sv nn twn typ nc,SV NN TWN TYP NC,Seven on a twenty pence
+Sides on coins,Twl vnth rpnc,TWL VNTH RPNC,Twelve on a threepence
+Hot things made cold,Cl dcr ss bn,CL DCR SS BN,Cold cross bun
+Hot things made cold,Cl drb lln,CL DRB LLN,Cold air balloon
+Hot things made cold,Mgf cld ch clt,MGF CLD CH CLT,Mug of cold chocolate
+Hot things made cold,Cl dnd rthc llr,CL DND RTHC LLR,Cold under the collar
+Largest countries by continent,Rss nrp,RSS NRP,Russia in Europe
+Largest countries by continent,Cn dn Nrt hm rc,CN DN NRT HM RC,Canada in North America
+Largest countries by continent,strl ncn,STRL NCN,Australia in Oceania
+Largest countries by continent,lg rn frc,LG RN FRC,Algeria in Africa
+Usually abbreviated to 3 letters,Glbl Pstn ng Sy stm,GLBL PSTN NG SY STM,Global Positioning System
+Usually abbreviated to 3 letters,t ctr,T CTR,et cetera
+Usually abbreviated to 3 letters,nt drb mr ts,NT DRB MR TS,United Arab Emirates
+Usually abbreviated to 3 letters,Brts hBr dcs tn gCr prtn,BRTS HBR DCS TN GCR PRTN,British Broadcasting Corporation
+Things associated with Sweden,Mt bl ls,MT BL LS,Meatballs
+Things associated with Sweden,K,K,IKEA
+Things associated with Sweden,rvs nSn gCn tst,RVS NSN GCN TST,Eurovision Song Contest
+Things associated with Sweden,BB,BB,ABBA
+European landmarks and cities,Cls smn Rm,CLS SMN RM,Colosseum in Rome
+European landmarks and cities,Twr fL nd nn Lndn,TWR FL ND NN LNDN,Tower of London in London
+European landmarks and cities,Brn dn brg Gtnb rln,BRN DN BRG GTNB RLN,Brandenburg Gate in Berlin
+European landmarks and cities,ff lTw rn Prs,FF LTW RN PRS,Eiffel Tower in Paris
+Mixing paint,rdnd yllw frr ng,RDND YLLW FRR NG,red and yellow for orange
+Mixing paint,yll wnd blf rg rn,YLL WND BLF RG RN,yellow and blue for green
+Mixing paint,blnd rdfr prpl,BLND RDFR PRPL,blue and red for purple
+Mixing paint,vry thn gfr blck,VRY THN GFR BLCK,everything for black
+Superlatives,Tlls tmn tn: Mntv rst,TLLS TMN TN: MNTV RST,Tallest mountain: Mount Everest
+Superlatives,Fsts tlnd nml: chth,FSTS TLND NML: CHTH,Fastest land animal: cheetah
+Superlatives,Lrg stcn try: Rss,LRG STCN TRY: RSS,Largest country: Russia
+Superlatives,Shrt stFl ght: Wstr ytPp Wst ry,SHRT STFL GHT: WSTR YTPP WST RY,Shortest flight: Westray to Papa Westray
+Groups of animals,mrd rf crws,MRD RF CRWS,(a) murder of crows
+Groups of animals,flc kfs hp,FLC KFS HP,(a) flock of sheep
+Groups of animals,gg glf gs (wh nng rnd),GG GLF GS (WH NNG RND),(a) gaggle of geese (when on ground)
+Groups of animals,pnd mnm fp rrts,PND MNM FP RRTS,(a) pandemonium of parrots
+Place names paired up,Lndn ndDn cstr,LNDN NDDN CSTR,London and Doncaster
+Place names paired up,Nwp rtn dPrt sm th,NWP RTN DPRT SM TH,Newport and Portsmouth
+Place names paired up,Bsn gst kndS tk-n -Tr nt,BSN GST KNDS TK-N -TR NT,Basingstoke and Stoke-on-Trent
+Place names paired up,Chch strn dCh str,CHCH STRN DCH STR,Chichester and Chester
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+,,,
+Top Gear challenges,Thm phbs CrCh llng,THM PHBS CRCH LLNG,The Amphibious Car Challenge
+Top Gear challenges,Th scnd mphbs CrCh llng,TH SCND MPHBS CRCH LLNG,The Second Amphibious Car Challenge
+Top Gear challenges,ThT ngCr Chll ng,THT NGCR CHLL NG,The Teenage Car Challenge
+Top Gear challenges,ThMt rhmC hlln g,THMT RHMC HLLN G,The Motorhome Challenge
+Animals and their young,Kngr ndjy,KNGR NDJY,Kangaroo and joey
+Animals and their young,Gt nd kd,GT ND KD,Goat and kid
+Animals and their young,Pffn ndp ffln g,PFFN NDP FFLN G,Puffin and puffling
+Animals and their young,Swnn dcyg nt,SWNN DCYG NT,Swan and cygnet
+Things found at motorway services,C rp rk,C RP RK,car park
+Things found at motorway services,lctr cvh clch rgng pnt,LCTR CVH CLCH RGNG PNT,electric vehicle charging point
+Things found at motorway services,mss gc hr,MSS GC HR,massage chair
+Things found at motorway services,pt rls ttn,PT RLS TTN,petrol station
+Things found at airports,rp lns,RP LNS,aeroplanes
+Things found at airports,rtr ffc cn tr lt wr,RTR FFC CN TR LT WR,air traffic control tower
+Things found at airports,mt ldt ctrs,MT LDT CTRS,metal detectors
+Things found at airports,ht ls,HT LS,hotels
+Backwards idioms,Pn tth twn grn,PN TTH TWN GRN,Paint the town green
+Backwards idioms,Btw nrc knd sf tp lc,BTW NRC KND SF TP LC,Between a rock and a soft place
+Backwards idioms,Frw rdt sq rn,FRW RDT SQ RN,Forward to square one
+Backwards idioms,Dr pyrh rss,DR PYRH RSS,Drop your horses
+Shipping forecast regions,Sth stc lnd,STH STC LND,Southeast Iceland
+Shipping forecast regions,Thms,THMS,Thames
+Shipping forecast regions,Dvr,DVR,Dover
+Shipping forecast regions,rsh S,RSH S,Irish Sea
