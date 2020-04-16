@@ -23,6 +23,7 @@ var completedCategories = [];
 var reserveCategories = [];
 var scheduleButtonMode = "normal";
 var scheduleBackup = []; //Used to store the original backup incase edits are cancelled
+var tiebreakQuestion = {"question":"PH TFN SH", "answer":"PHOTO FINISH"};
 
 function resetGame() {
   currentCategory = 0;
@@ -155,6 +156,11 @@ function loadNewFile(rawFile) {
       reserveCategories.push(category);
     }
   }
+  //Tiebreak
+  categoriesList.push("Tiebreak");
+  questionsDatabase["Tiebreak"] = {"category":"Tiebreak", questions:[tiebreakQuestion]};
+  reserveCategories.push("Tiebreak");
+  //Update screen
   document.getElementById("missing-vowels-answer").innerHTML = "Ready: creating default schedule...";
   createScheduleOriginalOrder();
   resetGame();
