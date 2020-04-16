@@ -79,7 +79,7 @@ function manuallyAdjustScore(teamNumber) {
     return
   } 
   try {
-    var newScore = parseInt(prompt("**ADJUST SCORE**\nEnter a new score for the team "+teamNames[teamNumber-1]+":"));
+    var newScore = parseFloat(prompt("**ADJUST SCORE**\nEnter a new score for the team "+teamNames[teamNumber-1]+":"));
     scoresTable[teamNumber-1] = newScore;
     updateScoreTable();
   }
@@ -267,7 +267,7 @@ function submitScoreChange() {
   if (teamScoreStore === null) {
     teamScoreStore = defaultPoints;
   }
-  addPoints(teamNumberStore, parseInt(teamScoreStore));
+  addPoints(teamNumberStore, parseFloat(teamScoreStore));
   document.getElementById("missing-vowels-command").innerHTML = "Press 1 or 2 to select team";
   teamNumberStore = -1;
   teamScoreStore = null;
@@ -277,7 +277,8 @@ function submitScoreChange() {
 
 function awardDefaultPoints(team) {
   if (status == "solving" || status == "revealed") {
-    selectTeam(team); submitScoreChange();
+    selectTeam(team); 
+    submitScoreChange();
   }
 }
 
