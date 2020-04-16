@@ -20,7 +20,9 @@ var team2awardButton = null;
 var loadFileButton = null;
 var changeScheduleButton = null;
 var completedCategories = [];
+var reserveCategories = [];
 var scheduleButtonMode = "normal";
+var scheduleBackup = []; //Used to store the original backup incase edits are cancelled
 
 function resetGame() {
   currentCategory = 0;
@@ -100,9 +102,13 @@ function createScheduleOriginalOrder() {
   categorySchedule = [];
   archiveSchedule = [];
   for (var i = 0, length = categoriesList.length; i < length; i++) {
+    if (reserveCategories.includes(categoriesList[i])) {
+      continue
+    }
     categorySchedule.push(categoriesList[i]);
   }
   archiveSchedule = categorySchedule;
+  document.getElementById("missing-vowels-answer").innerHTML = "Ready: "+String(categorySchedule.length)+" rounds in this game";
 }
 
 function loadNewFile(rawFile) {
@@ -116,17 +122,22 @@ function loadNewFile(rawFile) {
   for (var i = 1, length = splitRounds.length; i < length; i++) {
     splitQuestion = splitRounds[i].split(",");
     category = splitQuestion[0];
-    if (!categoriesList.includes(category) && category !== "") {
+    if (!categoriesList.includes(category) && category !== "" && category != "RESERVE") {
       questionsDatabase[category] = {"category":category, questions:[]};
       categoriesList.push(category);
     }
   }
   //Populate the categories
+  var reserveFlag = false;
   for (var i = 1, length = splitRounds.length; i < length; i++) {
     splitQuestion = splitRounds[i].split(",");
     category = splitQuestion[0];
     question = splitQuestion[2];
     answer = splitQuestion[3];
+    if (category == "RESERVE" && question == "RESERVE" && answer.slice(0, -1) == "RESERVE") {
+      reserveFlag = true;
+      continue;
+    }
     if (category === "" || question === "" || answer === "" || !categoriesList.includes(category)) {
       continue
     }
@@ -140,12 +151,15 @@ function loadNewFile(rawFile) {
     questionsDatabase[categoryID].questions.push(newQuestionObj);*/
     newQuestionObj = {"question":question, "answer":answer};
     questionsDatabase[category].questions.push(newQuestionObj);
+    if (reserveFlag) {
+      reserveCategories.push(category);
+    }
   }
+  document.getElementById("missing-vowels-answer").innerHTML = "Ready: creating default schedule...";
   createScheduleOriginalOrder();
   resetGame();
   changeScheduleButton.classList.remove("buttonDisabled");
   document.getElementById("missing-vowels-question").innerHTML = "Question file loaded";
-  document.getElementById("missing-vowels-answer").innerHTML = "Ready: "+String(categorySchedule.length)+" categories loaded";
   status = "readyToStart";
   localStorage.setItem("only-connect-status", "readyToStart");
   nextButton.classList.remove("buttonDisabled");
@@ -262,7 +276,38 @@ function awardDefaultPoints(team) {
 }
 
 function saveFileToMemory(rawFile) {
-  localStorage.setItem("only-connect-missing-vowels-file", rawFile);
+  if (window.confirm("Overwrite current schedule?")) { 
+    localStorage.setItem("only-connect-missing-vowels-file", rawFile);
+  }
+}
+
+function saveScheduleToMemory() {
+  if (window.confirm("Overwrite saved schedule?")) { 
+    localStorage.setItem("only-connect-missing-vowels-schedule", JSON.stringify(categorySchedule));
+  }
+}
+
+function loadCachedSchedule() {
+  if (localStorage.getItem("only-connect-missing-vowels-schedule") === null) {
+    alert("No cached schedule could be found");
+    return false
+  } else {
+    try {
+      savedSchedule = localStorage.getItem("only-connect-missing-vowels-schedule");
+      if (savedSchedule === "") {
+        throw "Schedule empty"
+      }
+      categorySchedule = JSON.parse(savedSchedule);
+      populateScheduleWindow();
+      return true
+    }
+    catch (err) {
+      console.error("Failed to load cached schedule: ", err);
+      populateScheduleWindow();
+      alert("Failed to fetch schedule\nA cached schedule was found, but it didn't load properly");
+      return false
+    }
+  }
 }
 
 function loadCachedFile() {
@@ -410,9 +455,17 @@ function populateScheduleWindow() {
 
 function showScheduleWindow() {
   populateScheduleWindow();
+  scheduleBackup = categorySchedule;
   document.getElementById("schedule-window").style.display = "block";
   scheduleButtonMode = "normal";
   updateScheduleWindowButtonStates();
+}
+
+function cancelScheduleEdits() {
+  if (window.confirm("Are you sure you want to revert all changes to the schedule?")) { 
+    categorySchedule = scheduleBackup;
+    hideScheduleWindow();
+  }
 }
 
 function hideScheduleWindow() {
@@ -420,6 +473,7 @@ function hideScheduleWindow() {
     document.getElementById("schedule-window").style.display = "none";
     currentCatName = categorySchedule[0];
     if (completedCategories.length == 0) {
+      document.getElementById("missing-vowels-answer").innerHTML = "Ready: "+String(categorySchedule.length)+" rounds in this game";
       return
     } else if (currentQuestion == questionsDatabase[currentCatName].questions.length-1 || currentQuestion < 0) {
       status = "nextCategory";
@@ -433,6 +487,9 @@ function hideScheduleWindow() {
   }
   scheduleButtonMode = "normal";
   updateScheduleWindowButtonStates();
+  if (status == "waiting" || status == "readyToStart") {
+    document.getElementById("missing-vowels-answer").innerHTML = "Ready: "+String(categorySchedule.length)+" rounds in this game";
+  }
 }
 
 document.addEventListener("keydown", function(event) {
@@ -487,9 +544,10 @@ document.addEventListener("keydown", function(event) {
     }*/ //Disables score updates through keyboard
     document.getElementById("missing-vowels-command").innerHTML = "<b>Team "+String(teamNumberStore)+"</b>: "+String(teamScoreStore)+" points";
   }
-  if (event.which == 27) {
+  /*if (event.which == 27) {
+    //Esc key to auto confirm schedule changes
     hideScheduleWindow();
-  }
+  }*/
   if (event.which == 27 && teamNumberStore != -1) {
     document.getElementById("missing-vowels-command").innerHTML = "Press 1 or 2 to select team";
     teamNumberStore = -1;

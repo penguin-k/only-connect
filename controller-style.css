@@ -388,21 +388,32 @@
   color: black;
   font-weight: 700;
   font-size: 20px;
-  padding: 5px;
+  padding: 5px 0px 5px 0px;
   text-align: center;
   background: #a6d1ff;
   border: solid black 2px;
   margin-top: 10px;
 }
-.schedule-window-button:hover {
-  background: #7492b3;
-}
-.schedule-window-button:active {
-  background: #212a33;
-}
 .schedule-window-button.button-mode-active {
   background: #fff56d;
 }
+#schedule-window-save-button {
+  color: white;
+  background: #11bf0b;
+}
+#schedule-window-cancel-button {
+  color: white;
+  background: #bf0b0b;
+}
+.schedule-window-button:hover {
+  /*background: #7492b3;*/
+  filter: brightness(70%);
+}
+.schedule-window-button:active {
+  /*background: #212a33;*/
+  filter: brightness(30%);
+}
+
 
 body {
   font-family: 'IBM Plex Sans', sans-serif;
