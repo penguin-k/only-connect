@@ -265,6 +265,11 @@ function revealAnswer() {
 
 function submitScoreChange() {
   if (teamScoreStore === null) {
+    /*if (localStorage.getItem("only-connect-simplified") == "spaces") {
+      teamScoreStore = 0.5;
+    } else {
+      teamScoreStore = defaultPoints;
+    }*/
     teamScoreStore = defaultPoints;
   }
   addPoints(teamNumberStore, parseFloat(teamScoreStore));
