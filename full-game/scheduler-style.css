@@ -1,0 +1,56 @@
+body {
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+.page-toolbar {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 41px;
+  margin: 0px;
+  border-bottom: solid black;
+  background-color: #eeeeee;
+}
+.toolbar-wrapper {
+  height: 40px;
+}
+.toolbar-title {
+  margin: 6px 7px 0px 7px;
+  font-size: 20px;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  float: left;
+}
+.toolbar-button {
+  float: right;
+  font-size: 22px;
+  border: solid black 2px;
+  padding: 2px 4px 2px 4px;
+  margin: 1.5px;
+  color: white;
+}
+.toolbar-button:hover {
+  filter: brightness(70%);
+}
+.toolbar-button:active {
+  filter: brightness(30%);
+}
+.toolbar-button-label {
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 6px 0px 0px 6px;
+  float: right;
+}
+@media only screen and (max-width: 600px) {
+  .toolbar-button-label {
+    display: none;
+  }
+}
+#toolbar-home-button {
+  background-color: #3f4dff;
+}
+#toolbar-save-button, #toolbar-upload-button, #toolbar-export-button {
+  background-color: #ff3f3f;
+}
