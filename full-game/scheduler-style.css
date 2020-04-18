@@ -29,6 +29,11 @@ body {
   padding: 2px 4px 2px 4px;
   margin: 1.5px;
   color: white;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+  -o-user-select: none;
 }
 .toolbar-button:hover {
   filter: brightness(70%);
@@ -43,7 +48,7 @@ body {
   margin: 6px 0px 0px 6px;
   float: right;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 950px) {
   .toolbar-button-label {
     display: none;
   }
@@ -53,4 +58,7 @@ body {
 }
 #toolbar-save-button, #toolbar-upload-button, #toolbar-export-button {
   background-color: #ff3f3f;
+}
+#toolbar-round-1-button, #toolbar-round-2-button, #toolbar-round-3-button, #toolbar-round-4-button {
+  background-color: #2bdf43;
 }
