@@ -13,43 +13,60 @@
 
 </head>
 
-<body>
+<body onload="pageLoadInit()">
+  <!-- PAGE TOOLBAR -->
   <div class="toolbar-wrapper">
     <div class="page-toolbar">
-      <h1 class="toolbar-title">Game schedule</h1>
-      <div class="toolbar-button" id="toolbar-export-button">
+      <h1 class="toolbar-title" id="top-toolbar-title">Game schedule</h1>
+      <div class="toolbar-button" id="toolbar-export-button" onclick="exportSchedule()">
         <i class="fas fa-download"></i>
         <p class="toolbar-button-label">Export</p>
       </div>
-      <div class="toolbar-button" id="toolbar-upload-button">
+      <a id="export-download-link" download="" href=""></a>
+      <div class="toolbar-button" id="toolbar-upload-button" onclick="promptFileUpload()">
         <i class="fas fa-upload"></i>
         <p class="toolbar-button-label">Upload</p>
       </div>
-      <div class="toolbar-button" id="toolbar-save-button">
+      <input id="upload-link" type="file">
+      <div class="toolbar-button" id="toolbar-load-button" onclick="fetchScheduleFromLocalStorage()">
+        <i class="fas fa-history"></i>
+        <p class="toolbar-button-label">Load</p>
+      </div>
+      <div class="toolbar-button" id="toolbar-save-button" onclick="saveScheduleToLocalStorage()">
         <i class="far fa-save"></i>
         <p class="toolbar-button-label">Save</p>
       </div>
-      <div class="toolbar-button" id="toolbar-round-4-button">
+      <div class="toolbar-button" id="toolbar-round-4-button" onclick="switchTab('round4')">
         <i class="fas fa-grip-lines"></i>
         <p class="toolbar-button-label">Round 4</p>
       </div>
-      <div class="toolbar-button" id="toolbar-round-3-button">
+      <div class="toolbar-button" id="toolbar-round-3-button" onclick="switchTab('round3')">
         <i class="fas fa-border-all"></i>
         <p class="toolbar-button-label">Round 3</p>
       </div>
-      <div class="toolbar-button" id="toolbar-round-2-button">
+      <div class="toolbar-button" id="toolbar-round-2-button" onclick="switchTab('round2')">
         <i class="fas fa-ellipsis-h"></i>
         <p class="toolbar-button-label">Round 2</p>
       </div>
-      <div class="toolbar-button" id="toolbar-round-1-button">
+      <div class="toolbar-button" id="toolbar-round-1-button" onclick="switchTab('round1')">
         <i class="fas fa-link"></i>
         <p class="toolbar-button-label">Round 1</p>
       </div>
-      <div class="toolbar-button" id="toolbar-home-button">
+      <div class="toolbar-button" id="toolbar-home-button" onclick="switchTab('home')">
         <i class="fas fa-home"></i>
         <p class="toolbar-button-label">Home</p>
       </div>
     </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="scheduler-tab" id="scheduler-home-tab">
+    <p>Home</p>
+  </div>
+
+  <div class="scheduler-tab" id="scheduler-round-3-tab">
+    <p class="error-title">Coming soon...</p>
+    <p class="error-subtitle">Connecting walls not yet supported</p>
   </div>
 </body>
 </html>

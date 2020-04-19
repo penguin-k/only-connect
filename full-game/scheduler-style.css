@@ -17,7 +17,7 @@ body {
 .toolbar-title {
   margin: 6px 7px 0px 7px;
   font-size: 20px;
-  width: 200px;
+  width: 180px;
   overflow: hidden;
   white-space: nowrap;
   float: left;
@@ -48,7 +48,7 @@ body {
   margin: 6px 0px 0px 6px;
   float: right;
 }
-@media only screen and (max-width: 950px) {
+@media only screen and (max-width: 1150px) {
   .toolbar-button-label {
     display: none;
   }
@@ -56,9 +56,38 @@ body {
 #toolbar-home-button {
   background-color: #3f4dff;
 }
-#toolbar-save-button, #toolbar-upload-button, #toolbar-export-button {
+#toolbar-save-button, #toolbar-upload-button, #toolbar-export-button, #toolbar-load-button {
   background-color: #ff3f3f;
 }
 #toolbar-round-1-button, #toolbar-round-2-button, #toolbar-round-3-button, #toolbar-round-4-button {
   background-color: #2bdf43;
+}
+#export-download-link, #upload-link {
+  display: none;
+}
+
+.scheduler-tab {
+  height: 100%;
+  width: 100%;
+  margin: 0px;
+  display: none;
+}
+#scheduler-home-tab {
+  background-color: lightgreen;
+  display: block;
+}
+
+.error-title {
+  font-size: 25px;
+  font-weight: 700;
+  color: crimson;
+  text-align: center;
+  margin-bottom: 5px;
+}
+.error-subtitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333333;
+  text-align: center;
+  margin-top: 0px;
 }
