@@ -95,7 +95,7 @@ body {
 /*.scheduler-input-window > p {
   margin: 0px;
 }*/
-span[contenteditable], p[contenteditable] {
+[contenteditable] {
   background-color: rgb(255, 255, 172);
   padding: 3px;
   border: dashed 1px gray;
@@ -108,6 +108,14 @@ span[contenteditable], p[contenteditable] {
 }
 .input-window-hr {
   margin: 15px 0px 15px 0px;
+}
+.scheduler-input-table {
+  border-collapse: collapse;
+  background-color: white;
+  width: 100%;
+}
+.scheduler-input-table, .scheduler-input-table th, .scheduler-input-table td {
+  border: solid gray 2px;
 }
 
 
