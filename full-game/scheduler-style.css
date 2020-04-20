@@ -17,7 +17,7 @@ body {
 .toolbar-title {
   margin: 6px 7px 0px 7px;
   font-size: 20px;
-  width: 180px;
+  width: 160px;
   overflow: hidden;
   white-space: nowrap;
   float: left;
@@ -48,11 +48,6 @@ body {
   margin: 6px 0px 0px 6px;
   float: right;
 }
-@media only screen and (max-width: 1150px) {
-  .toolbar-button-label {
-    display: none;
-  }
-}
 #toolbar-home-button {
   background-color: #3f4dff;
 }
@@ -73,7 +68,6 @@ body {
   display: none;
 }
 #scheduler-home-tab {
-  background-color: lightgreen;
   display: block;
 }
 
@@ -90,4 +84,68 @@ body {
   color: #333333;
   text-align: center;
   margin-top: 0px;
+}
+
+.scheduler-input-window {
+  background-color: #eeeeee;
+  border: solid black 2px;
+  height: auto;
+  padding: 10px;
+}
+/*.scheduler-input-window > p {
+  margin: 0px;
+}*/
+span[contenteditable], p[contenteditable] {
+  background-color: rgb(255, 255, 172);
+  padding: 3px;
+  border: dashed 1px gray;
+}
+.input-window-title {
+  font-size: 18px;
+  margin-bottom: 5px;
+  margin: 4px 0px 4px 0px;
+  font-weight: 500;
+}
+.input-window-hr {
+  margin: 15px 0px 15px 0px;
+}
+
+
+.full-page-alert {
+  position: fixed;
+  z-index: 100;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  margin: 0px;
+  background-color: #eeeeee;
+  border: solid black;
+  padding: 15px;
+}
+#screen-size-alert {
+  display: none;
+}
+@media only screen and (max-width: 515px) {
+  #screen-size-alert {
+    display: block;
+  }
+}
+@media only screen and (min-width: 516px) {
+  #screen-size-alert {
+    display: none;
+  }
+}
+
+
+@media only screen and (max-width: 1150px) {
+  .toolbar-button-label {
+    display: none;
+  }
+}
+@media only screen and (min-width: 900px) {
+  .scheduler-input-window {
+    margin-left: 5vw;
+    margin-right: 5vw;
+  }
 }

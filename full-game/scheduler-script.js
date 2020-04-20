@@ -1,10 +1,10 @@
 var selectedWindow = "home"; //home, round1, round2, round3, round4, settings
 var tabOptions = {
   "home":{"title":"Home", "tab":"scheduler-home-tab"},
-  "round1":{"title":"Connections", "tab":""},
-  "round2":{"title":"Sequences", "tab":""},
+  "round1":{"title":"Connections", "tab":"scheduler-round-1-tab"},
+  "round2":{"title":"Sequences", "tab":"scheduler-round-2-tab"},
   "round3":{"title":"Connecting wall", "tab":"scheduler-round-3-tab"},
-  "round4":{"title":"Missing vowels", "tab":""},
+  "round4":{"title":"Missing vowels", "tab":"scheduler-round-4-tab"},
   "settings":{"title":"Settings", "tab":""}
 }
 var gameSchedule = {
