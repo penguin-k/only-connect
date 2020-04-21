@@ -67,9 +67,9 @@ function fetchScheduleFromLocalStorage() {
       roundNumbers = [parsedSchedule.round1.length, parsedSchedule.round2.length, parsedSchedule.round3.length, parsedSchedule.round4.length];
       if (confirm("Overwrite current schedule with cached version?\n\nThe version found in memory is as follows:\n"+String(roundNumbers[0])+" connections rounds\n"+String(roundNumbers[1])+" sequences rounds\n"+String(roundNumbers[2]/2)+" connecting walls\n"+String(roundNumbers[3])+" missing vowels categories\n\nContinue and restore saved version?")) {
         gameSchedule = parsedSchedule;
-        switchTab("home");
-        //RELOAD SCREENS HERE
-        loadMissingVowelsSchedule();
+        //switchTab("home");
+        reloadTabs();
+        //loadMissingVowelsSchedule();
         //alert("Saved schedule loaded successfully");
       } else {
         alert("Operation cancelled");
@@ -113,15 +113,15 @@ async function processUploadedFile(event) {
     try {
       parsedSchedule = JSON.parse(rawSchedule);
       gameSchedule = parsedSchedule;
-      switchTab("home");
-      //RELOAD SCREENS HERE
-      alert("Uploaded schedule loaded successfully");
+      //switchTab("home");
+      reloadTabs();
+      //alert("Uploaded schedule loaded successfully");
     }
     catch (err) {
       console.error("Failed to apply uploaded schedule: "+err);
       gameSchedule = previousSchedule;
-      switchTab("home");
-      //RELOAD SCREENS HERE
+      //switchTab("home");
+      reloadTabs();
       alert("An error occurred while processing the uploaded file. The previous schedule has been restored.");
     }
   }
@@ -188,6 +188,27 @@ function removeAllSubRounds(round, checkFirst=true) {
     inputWindows[counter].remove();
     counter += 1;
   }
+}
+
+function removeSubRound(sourceElement, checkFirst=true) {
+  parentElement = sourceElement.parentElement;
+  categoryName = parentElement.querySelector(".input-window-title > [contenteditable]").innerText;
+  if (categoryName == "") {
+    categoryNameEmbedded = "this category";
+  } else {
+    categoryNameEmbedded = `the category "${categoryName}"`;
+  }
+  if (checkFirst != false) {
+    if (!confirm(`Are you sure you want to delete ${categoryNameEmbedded}?\nThis action cannot be undone`)) {
+      return
+    }
+  }
+  parentElement.remove();
+}
+
+function reloadTabs() {
+  //useful after a new file is uploaded or fetched from memory
+  loadMissingVowelsSchedule();
 }
 
 function switchTab(tab) {
@@ -286,7 +307,6 @@ function generateMissingVowelsSchedule() {
       questionObj = {"q":questionText, "a":answerText};
       categorySchedule.list.push(questionObj);
     }
-    return true
   }
   gameSchedule.round4 = missingVowelsSchedule;
   return missingVowelsSchedule

@@ -35,10 +35,10 @@ body {
   user-select: none;
   -o-user-select: none;
 }
-.toolbar-button:hover, .in-page-button:hover {
+.toolbar-button:hover, .in-page-button:hover, .input-window-button:hover {
   filter: brightness(70%);
 }
-.toolbar-button:active, .in-page-button:active {
+.toolbar-button:active, .in-page-button:active, .input-window-button:active {
   filter: brightness(30%);
 }
 .toolbar-button-label {
@@ -52,10 +52,10 @@ body {
   background-color: #3f4dff;
 }
 #toolbar-save-button, #toolbar-upload-button, #toolbar-export-button, #toolbar-load-button {
-  background-color: #ff3f3f;
+  background-color: #df2b76;
 }
 #toolbar-round-1-button, #toolbar-round-2-button, #toolbar-round-3-button, #toolbar-round-4-button {
-  background-color: #2bdf43;
+  background-color: #0aa859;
 }
 #export-download-link, #upload-link {
   display: none;
@@ -96,6 +96,7 @@ body {
   height: auto;
   padding: 10px;
   margin: 10px 0px 10px 0px;
+  position: relative;
 }
 /*.scheduler-input-window > p {
   margin: 0px;
@@ -111,8 +112,26 @@ body {
 .input-window-title {
   font-size: 18px;
   margin-bottom: 5px;
-  margin: 4px 0px 4px 0px;
+  margin: 4px 0px 14px 0px;
   font-weight: 500;
+}
+.input-window-close-button {
+  height: 30px;
+  background-color: #ff3f3f;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 22px;
+  border: solid black 2px;
+  padding: 2px 4px 2px 4px;
+  margin: 1.5px;
+  color: white;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+  -o-user-select: none;
+  width: fit-content;
 }
 .input-window-hr {
   margin: 15px 0px 15px 0px;

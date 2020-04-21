@@ -99,7 +99,11 @@
   <template id="round-4-input-window-template">
     <div class="scheduler-input-window">
       <h6 class="input-window-title"><strong>Category: </strong><span class="input-window-editable" contenteditable data-text="Click to enter"></span></h6>
-      <hr class="input-window-hr">
+      <div class="input-window-button input-window-close-button" onclick="removeSubRound(this)">
+        <i class="fas fa-times"></i>
+        <p class="in-page-button-label">Remove</p>
+      </div>
+      <!--<hr class="input-window-hr">-->
       <table class="scheduler-input-table">
         <tr>
           <th style="width:50%">Answer</th>
