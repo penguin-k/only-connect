@@ -20,10 +20,23 @@ var roundTemplates = {
   "round4":{"cat":"", "list": [{"q":"", "a":""}, {"q":"", "a":""}, {"q":"", "a":""}, {"q":"", "a":""}]}
 }
 
-function saveScheduleToLocalStorage() {
+//https://codingwithspike.wordpress.com/2018/03/10/making-settimeout-an-async-await-function/
+async function wait(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}
+
+async function saveScheduleToLocalStorage(confirmSave=true) {
+  if (!generateMissingVowelsSchedule()) { // add other schedule generators here - use ||
+    return false
+  }
   cachedVersion = localStorage.getItem("only-connect-schedule-cached");
   newVersion = JSON.stringify(gameSchedule);
-  if (cachedVersion !== null && cachedVersion != newVersion) {
+  saveButtonIcon = document.getElementById("toolbar-save-button-icon");
+  saveButtonIcon.setAttribute("class", "");
+  saveButtonIcon.setAttribute("class", "fas fa-sync fa-spin");
+  if (cachedVersion !== null && cachedVersion != newVersion && confirmSave) {
     if (!confirm("There is an older schedule saved in local storage\nContinue saving and overwrite the older version?")) {
       alert("Operation cancelled");
       return false
@@ -32,7 +45,15 @@ function saveScheduleToLocalStorage() {
   }
   newVersion = JSON.stringify(gameSchedule);
   localStorage.setItem("only-connect-schedule-cached", newVersion);
-  alert("Schedule saved successfully");
+  /*if (confirmSave) {
+    alert("Schedule saved successfully");
+  }*/
+  await wait(700);
+  saveButtonIcon.setAttribute("class", "");
+  saveButtonIcon.setAttribute("class", "fas fa-check");
+  await wait(1500);
+  saveButtonIcon.setAttribute("class", "");
+  saveButtonIcon.setAttribute("class", "far fa-save");
 }
 
 function fetchScheduleFromLocalStorage() {
@@ -48,7 +69,8 @@ function fetchScheduleFromLocalStorage() {
         gameSchedule = parsedSchedule;
         switchTab("home");
         //RELOAD SCREENS HERE
-        alert("Saved schedule loaded successfully");
+        loadMissingVowelsSchedule();
+        //alert("Saved schedule loaded successfully");
       } else {
         alert("Operation cancelled");
       }
@@ -105,11 +127,67 @@ async function processUploadedFile(event) {
   }
 }
 
-function addRound(roundNumber) {
+function addRoundToSchedule(roundNumber) {
   //used to add an additional round, e.g. a second connecting wall
   roundRef = "round"+String(roundNumber);
   template = roundTemplates[roundRef];
   gameSchedule[roundRef].push(template);
+}
+
+function addMissingVowelsCategory() {
+  if ('content' in document.createElement("template")) {
+    //clone the template
+    var template = document.getElementById("round-4-input-window-template");
+    var insertionParent = document.getElementById("scheduler-round-4-tab");
+    var clone = template.content.cloneNode(true);
+    //label and id the clone
+    var td = clone.querySelectorAll("td");
+    var inputBlockEl = clone.querySelectorAll(".scheduler-input-window")[0];
+    var tableID = insertionParent.children.length-1;
+    /*inputBlockEl.id = "round-4-input-table-"+String(tableID);
+    var idCounter = 0;
+    td.forEach(function(cloneRow) {
+      idCounter += 1;
+      cloneRow.id = "round-4-input-row-"+String(tableID)+"-"+String(idCounter);
+    });*/
+    //insert the clone
+    insertionParent.appendChild(clone);
+  } else {
+    alert("Browser not supported\nSorry, this browser doesn't seem to meet the minimum requirements to run this application");
+  }
+}
+
+function removeAllSubRounds(round, checkFirst=true) {
+  //provide the round number as an integer (1, 2, 3 or 4)
+  roundNumber = String(round);
+  /*var parentWindow = document.getElementById(`scheduler-round-${roundNumber}-tab`);
+  if (parentWindow.children.length <= 2) {
+    //nothing to delete
+    return
+  }
+  if (checkFirst != false) {
+    if (!confirm("Are you sure you want to delete all "+String(parentWindow.children.length-2)+" categories within this round?\nThis action cannot be undone")) {
+      return
+    }
+  }
+  while (parentWindow.children.length > 2) {
+    parentWindow.removeChild(parentWindow.lastChild);
+  }*/
+  inputWindows = document.getElementById(`scheduler-round-${roundNumber}-tab`).querySelectorAll(".scheduler-input-window");
+  if (inputWindows.length == 0) {
+    //nothing to delete
+    return
+  }
+  if (checkFirst != false) {
+    if (!confirm("Are you sure you want to delete all "+String(inputWindows.length)+" categories within this round?\nThis action cannot be undone")) {
+      return
+    }
+  }
+  counter = 0;
+  while (counter < inputWindows.length) {
+    inputWindows[counter].remove();
+    counter += 1;
+  }
 }
 
 function switchTab(tab) {
@@ -131,6 +209,114 @@ function switchTab(tab) {
     }
   }
 }
+
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+//https://stackoverflow.com/questions/4313841/insert-a-string-at-a-specific-index
+String.prototype.insert = function(index, string) {
+  if (index > 0) {
+    return this.substring(0, index) + string + this.substring(index, this.length);
+  }
+  return string + this;
+};
+//https://stackoverflow.com/questions/9050345/selecting-last-element-in-javascript-array
+if (!Array.prototype.last){
+  Array.prototype.last = function(){
+      return this[this.length - 1];
+  };
+} else {
+  console.warn("Array.last() is already defined");
+}
+
+function processMissingVowelsEdit(eventElement) {
+  //fired after the answer box of a missing vowels round is edited (onblur)
+  vowelsRemoved = eventElement.innerText.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9]/ig, "").toUpperCase();
+  questionLength = vowelsRemoved.length;
+  questionWithSpaces = vowelsRemoved;
+  if (questionLength > 4) {
+    /*lowerBound = Math.floor((questionLength/4));
+    higherBound = Math.ceil((questionLength/2.5));*/
+    lowerBound = 2;
+    higherBound = 4;
+    stringCursor = 0;
+    while (stringCursor < questionWithSpaces.length) {
+      stringCursor += randomInteger(lowerBound, higherBound);
+      questionWithSpaces = questionWithSpaces.insert(stringCursor, " ");
+      stringCursor += 1;
+    }
+  }
+  eventElement.parentElement.children[1].innerText = questionWithSpaces;
+}
+
+function checkMissingVowelsCustomEdit(eventElement) {
+  //used to check that any edits to the question match the original answer
+  originalAnswer = eventElement.parentElement.children[0].innerText;
+  newQuestion = eventElement.innerText;
+  answerVowelsSpacesRemoved = originalAnswer.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9]/ig, "").toUpperCase();
+  questionVowelsSpacesRemoved = newQuestion.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9]/ig, "").toUpperCase();
+  questionVowelsRemoved = newQuestion.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9\s]/ig, "").toUpperCase();
+  if (answerVowelsSpacesRemoved != questionVowelsSpacesRemoved || questionVowelsRemoved != newQuestion || newQuestion === "") {
+    alert("Warning: question no longer matches answer\nThe question has been recalculated");
+    processMissingVowelsEdit(eventElement.parentElement.children[0]);
+  }
+}
+
+function generateMissingVowelsSchedule() {
+  inputWindows = document.getElementById("scheduler-round-4-tab").querySelectorAll(".scheduler-input-window");
+  missingVowelsSchedule = [];
+  for(let i = 0; i < inputWindows.length; i++) {
+    inputWindow = inputWindows[i];
+    categoryTitle = inputWindow.querySelector(".input-window-title [contenteditable]").innerText;
+    if (categoryTitle === "") {
+      alert("Error saving schedule (missing vowels round):\nOne or more categories does not have a title");
+      return false
+    }
+    categorySchedule = {"cat":categoryTitle, "list":[]};
+    missingVowelsSchedule.push(categorySchedule);
+    dataCells = inputWindow.querySelectorAll("td");
+    for(let j = 0; j < dataCells.length; j+=2) {
+      answerText = dataCells[j].innerText;
+      questionText = dataCells[j+1].innerText;
+      if (answerText === "" || questionText === "") {
+        alert("Error saving schedule (missing vowels round):\nA question/answer is missing");
+        return false
+      }
+      questionObj = {"q":questionText, "a":answerText};
+      categorySchedule.list.push(questionObj);
+    }
+    return true
+  }
+  gameSchedule.round4 = missingVowelsSchedule;
+  return missingVowelsSchedule
+}
+
+function loadMissingVowelsSchedule() {
+  removeAllSubRounds(4, false);
+  missingVowelsSchedule = gameSchedule.round4;
+  for(let i = 0; i < missingVowelsSchedule.length; i++) {
+    categorySchedule = missingVowelsSchedule[i];
+    addMissingVowelsCategory();
+    inputWindows = document.getElementById("scheduler-round-4-tab").querySelectorAll(".scheduler-input-window");
+    inputWindow = inputWindows[inputWindows.length - 1];
+    inputWindow.querySelector(".input-window-title [contenteditable]").innerText = categorySchedule.cat;
+    dataCells = inputWindow.querySelectorAll("td");
+    for(let j = 0; j < dataCells.length; j+=2) {
+      dataCells[j].innerText = categorySchedule.list[j/2].a;
+      dataCells[j+1].innerText = categorySchedule.list[j/2].q;
+    }
+  }
+}
+
+//PAGE LOAD FUNCTIONS
+
+window.addEventListener('beforeunload', function (e) {
+  // Cancel the event
+  e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+  // Chrome requires returnValue to be set
+  e.returnValue = '';
+});
 
 function pageLoadInit() {
   selectedWindow = "home";

@@ -35,10 +35,10 @@ body {
   user-select: none;
   -o-user-select: none;
 }
-.toolbar-button:hover {
+.toolbar-button:hover, .in-page-button:hover {
   filter: brightness(70%);
 }
-.toolbar-button:active {
+.toolbar-button:active, .in-page-button:active {
   filter: brightness(30%);
 }
 .toolbar-button-label {
@@ -59,6 +59,10 @@ body {
 }
 #export-download-link, #upload-link {
   display: none;
+}
+.toolbar-button i {
+  width: 22px;
+  text-align: center;
 }
 
 .scheduler-tab {
@@ -91,6 +95,7 @@ body {
   border: solid black 2px;
   height: auto;
   padding: 10px;
+  margin: 10px 0px 10px 0px;
 }
 /*.scheduler-input-window > p {
   margin: 0px;
@@ -99,6 +104,9 @@ body {
   background-color: rgb(255, 255, 172);
   padding: 3px;
   border: dashed 1px gray;
+}
+[contentEditable]:empty:not(:focus):before{
+  content:attr(data-text);
 }
 .input-window-title {
   font-size: 18px;
@@ -116,6 +124,40 @@ body {
 }
 .scheduler-input-table, .scheduler-input-table th, .scheduler-input-table td {
   border: solid gray 2px;
+}
+.scheduler-input-table td {
+  text-transform: uppercase;
+}
+.in-page-buttons {
+  display: inline-block;
+  margin-top: 4px;
+}
+.in-page-button {
+  font-size: 22px;
+  border: solid black 2px;
+  padding: 2px 4px 2px 4px;
+  margin: 1.5px;
+  color: white;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+  -o-user-select: none;
+  width: fit-content;
+  float: left;
+}
+.in-page-button-label {
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 6px 0px 0px 6px;
+  float: right;
+}
+.add-round-button {
+  background-color: #2bdf43;
+}
+.remove-all-rounds-button {
+  background-color: #ff3f3f;
 }
 
 
@@ -152,8 +194,9 @@ body {
   }
 }
 @media only screen and (min-width: 900px) {
-  .scheduler-input-window {
-    margin-left: 5vw;
-    margin-right: 5vw;
+  .scheduler-tab {
+    padding-left: 5vw;
+    padding-right: 5vw;
+    width: 90%;
   }
 }
