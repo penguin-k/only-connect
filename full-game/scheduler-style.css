@@ -10,6 +10,7 @@ body {
   margin: 0px;
   border-bottom: solid black;
   background-color: #eeeeee;
+  z-index: 100;
 }
 .toolbar-wrapper {
   height: 40px;
@@ -64,6 +65,22 @@ body {
   width: 22px;
   text-align: center;
 }
+.save-button-colour-pulse {
+  animation-name: saveButtonPulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes saveButtonPulse {
+  0% {
+    background-color: #df2b76;
+  }
+  50% {
+    background-color: yellow;
+  }
+  100 {
+    background-color: #df2b76;
+  }
+}
 
 .scheduler-tab {
   height: 100%;
@@ -115,12 +132,8 @@ body {
   margin: 4px 0px 14px 0px;
   font-weight: 500;
 }
-.input-window-close-button {
+.input-window-button {
   height: 30px;
-  background-color: #ff3f3f;
-  position: absolute;
-  top: 5px;
-  right: 10px;
   font-size: 22px;
   border: solid black 2px;
   padding: 2px 4px 2px 4px;
@@ -133,6 +146,15 @@ body {
   -o-user-select: none;
   width: fit-content;
 }
+.missing-vowels-close-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+.input-window-float-button {
+  float: right;
+  margin-top: -3px;
+}
 .input-window-hr {
   margin: 15px 0px 15px 0px;
 }
@@ -144,7 +166,7 @@ body {
 .scheduler-input-table, .scheduler-input-table th, .scheduler-input-table td {
   border: solid gray 2px;
 }
-.scheduler-input-table td {
+.missing-vowels-input-table td {
   text-transform: uppercase;
 }
 .in-page-buttons {
@@ -172,13 +194,65 @@ body {
   margin: 6px 0px 0px 6px;
   float: right;
 }
+.reversed-button-label {
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  margin: 6px 6px 0px 0px;
+  float: left;
+}
+.centre-button-label {
+  color: white;
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0px 6px 0px 6px;
+}
 .add-round-button {
   background-color: #2bdf43;
 }
-.remove-all-rounds-button {
+.remove-all-rounds-button, .input-window-close-button {
   background-color: #ff3f3f;
 }
 
+/* Scroll buttons colours
+         Standard         */
+.input-window-scroll-button {
+  background-color: white;
+}
+.input-window-scroll-button > .centre-button-label {
+  color: #222222;
+}
+/*        Active          */
+.input-window-scroll-button.scroll-button-active {
+  /*border-style: dashed;*/
+  border-radius: 50%;
+}
+.input-window-scroll-button.scroll-button-active > .centre-button-label {
+  color: white!important;
+}
+/*       Complete         */
+.input-window-scroll-button.scroll-button-complete {
+  background-color: #2bdf43;
+}
+.input-window-scroll-button.scroll-button-complete > .centre-button-label {
+  color: white;
+}
+/*         Error          
+.input-window-scroll-button.scroll-button-error {
+  background-color: #ff3f3f;
+}
+.input-window-scroll-button.scroll-button-error > .centre-button-label {
+  color: lightgray;
+}*/
+.input-window-scroll-button:not(.scroll-button-complete) {
+  background-color: #ff3f3f;
+}
+.input-window-scroll-button:not(.scroll-button-complete) > .centre-button-label {
+  color: white;
+}
+.input-window-type-select {
+  cursor: pointer;
+}
 
 .full-page-alert {
   position: fixed;

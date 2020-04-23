@@ -19,6 +19,7 @@ var roundTemplates = {
   "round3":{},
   "round4":{"cat":"", "list": [{"q":"", "a":""}, {"q":"", "a":""}, {"q":"", "a":""}, {"q":"", "a":""}]}
 }
+var unsavedChangesTimer = 0;
 
 //https://codingwithspike.wordpress.com/2018/03/10/making-settimeout-an-async-await-function/
 async function wait(ms) {
@@ -27,8 +28,17 @@ async function wait(ms) {
   });
 }
 
+function alertUnsavedChanges() {
+  var now = new Date().getTime();
+  if (unsavedChangesTimer == 0) {
+    unsavedChangesTimer = now;
+  } else if (now - unsavedChangesTimer > 30000) {
+    document.getElementById("toolbar-save-button").classList.add("save-button-colour-pulse");
+  }
+}
+
 async function saveScheduleToLocalStorage(confirmSave=true) {
-  if (!generateMissingVowelsSchedule()) { // add other schedule generators here - use ||
+  if (!generateMissingVowelsSchedule() || !generateRound1Schedule() || !generateRound2Schedule()) { // add other schedule generators here - use ||
     return false
   }
   cachedVersion = localStorage.getItem("only-connect-schedule-cached");
@@ -38,7 +48,11 @@ async function saveScheduleToLocalStorage(confirmSave=true) {
   saveButtonIcon.setAttribute("class", "fas fa-sync fa-spin");
   if (cachedVersion !== null && cachedVersion != newVersion && confirmSave) {
     if (!confirm("There is an older schedule saved in local storage\nContinue saving and overwrite the older version?")) {
-      alert("Operation cancelled");
+      saveButtonIcon.setAttribute("class", "");
+      saveButtonIcon.setAttribute("class", "fas fa-times");
+      await wait(1500);
+      saveButtonIcon.setAttribute("class", "");
+      saveButtonIcon.setAttribute("class", "far fa-save");
       return false
     }
     //If accepted, continue
@@ -48,6 +62,8 @@ async function saveScheduleToLocalStorage(confirmSave=true) {
   /*if (confirmSave) {
     alert("Schedule saved successfully");
   }*/
+  document.getElementById("toolbar-save-button").classList.remove("save-button-colour-pulse");
+  unsavedChangesTimer = new Date().getTime();
   await wait(700);
   saveButtonIcon.setAttribute("class", "");
   saveButtonIcon.setAttribute("class", "fas fa-check");
@@ -134,11 +150,30 @@ function addRoundToSchedule(roundNumber) {
   gameSchedule[roundRef].push(template);
 }
 
-function addMissingVowelsCategory() {
+//Obsolete
+/*function addMissingVowelsCategory() {
   if ('content' in document.createElement("template")) {
     //clone the template
     var template = document.getElementById("round-4-input-window-template");
     var insertionParent = document.getElementById("scheduler-round-4-tab");
+    var clone = template.content.cloneNode(true);
+    //label and id the clone
+    var td = clone.querySelectorAll("td");
+    var inputBlockEl = clone.querySelectorAll(".scheduler-input-window")[0];
+    var tableID = insertionParent.children.length-1;
+    //insert the clone
+    insertionParent.appendChild(clone);
+  } else {
+    alert("Browser not supported\nSorry, this browser doesn't seem to meet the minimum requirements to run this application");
+  }
+}*/
+
+function addNewSubRound(round) {
+  if ('content' in document.createElement("template")) {
+    roundNumber = String(round);
+    //clone the template
+    var template = document.getElementById(`round-${roundNumber}-input-window-template`);
+    var insertionParent = document.getElementById(`scheduler-round-${roundNumber}-tab`);
     var clone = template.content.cloneNode(true);
     //label and id the clone
     var td = clone.querySelectorAll("td");
@@ -179,7 +214,7 @@ function removeAllSubRounds(round, checkFirst=true) {
     return
   }
   if (checkFirst != false) {
-    if (!confirm("Are you sure you want to delete all "+String(inputWindows.length)+" categories within this round?\nThis action cannot be undone")) {
+    if (!confirm("Are you sure you want to delete all "+String(inputWindows.length)+" subrounds/categories within this round?\nThis action cannot be undone")) {
       return
     }
   }
@@ -192,11 +227,13 @@ function removeAllSubRounds(round, checkFirst=true) {
 
 function removeSubRound(sourceElement, checkFirst=true) {
   parentElement = sourceElement.parentElement;
-  categoryName = parentElement.querySelector(".input-window-title > [contenteditable]").innerText;
-  if (categoryName == "") {
-    categoryNameEmbedded = "this category";
+  categoryName = parentElement.querySelector(".input-window-title > [contenteditable]");
+  if (categoryName === null) {
+    categoryNameEmbedded = "this subround";
+  } else if (categoryName.textContent == "") {
+    categoryNameEmbedded = `this category`;
   } else {
-    categoryNameEmbedded = `the category "${categoryName}"`;
+    categoryNameEmbedded = `the category "${categoryName.textContent}"`;
   }
   if (checkFirst != false) {
     if (!confirm(`Are you sure you want to delete ${categoryNameEmbedded}?\nThis action cannot be undone`)) {
@@ -208,6 +245,8 @@ function removeSubRound(sourceElement, checkFirst=true) {
 
 function reloadTabs() {
   //useful after a new file is uploaded or fetched from memory
+  loadRound1Schedule();
+  loadRound2Schedule();
   loadMissingVowelsSchedule();
 }
 
@@ -224,7 +263,7 @@ function switchTab(tab) {
     }
   });
   if (tabOptionsObj !== undefined) {
-    document.getElementById("top-toolbar-title").innerText = tabOptionsObj.title;
+    document.getElementById("top-toolbar-title").textContent = tabOptionsObj.title;
     if (tabOptionsObj.tab !== "") {
       document.getElementById(tabOptionsObj.tab).style.display = "block";
     }
@@ -253,7 +292,7 @@ if (!Array.prototype.last){
 
 function processMissingVowelsEdit(eventElement) {
   //fired after the answer box of a missing vowels round is edited (onblur)
-  vowelsRemoved = eventElement.innerText.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9]/ig, "").toUpperCase();
+  vowelsRemoved = eventElement.textContent.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9]/ig, "").toUpperCase();
   questionLength = vowelsRemoved.length;
   questionWithSpaces = vowelsRemoved;
   if (questionLength > 4) {
@@ -268,19 +307,191 @@ function processMissingVowelsEdit(eventElement) {
       stringCursor += 1;
     }
   }
-  eventElement.parentElement.children[1].innerText = questionWithSpaces;
+  eventElement.parentElement.children[1].textContent = questionWithSpaces;
+  alertUnsavedChanges();
 }
 
 function checkMissingVowelsCustomEdit(eventElement) {
   //used to check that any edits to the question match the original answer
-  originalAnswer = eventElement.parentElement.children[0].innerText;
-  newQuestion = eventElement.innerText;
+  originalAnswer = eventElement.parentElement.children[0].textContent;
+  newQuestion = eventElement.textContent;
   answerVowelsSpacesRemoved = originalAnswer.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9]/ig, "").toUpperCase();
   questionVowelsSpacesRemoved = newQuestion.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9]/ig, "").toUpperCase();
   questionVowelsRemoved = newQuestion.replace(/[^B-DF-HJ-NP-TV-Z\(\)\'\,\?\!\.0-9\s]/ig, "").toUpperCase();
   if (answerVowelsSpacesRemoved != questionVowelsSpacesRemoved || questionVowelsRemoved != newQuestion || newQuestion === "") {
     alert("Warning: question no longer matches answer\nThe question has been recalculated");
     processMissingVowelsEdit(eventElement.parentElement.children[0]);
+  }
+  alertUnsavedChanges();
+}
+
+function autoSaveRound1or2(sourceElement) {
+  alertUnsavedChanges();
+  sourceElement.parentElement.parentElement.parentElement.parentElement.querySelector(".scroll-button-active").click(); //Simulate a click on its own button
+}
+
+function makePuzzleNumberActive(roundNumber, puzzleNumber, sourceElement, skipSave=false) {
+  //save the current puzzle
+  activeButton = sourceElement.parentElement.querySelector(".input-window-scroll-button.scroll-button-active");
+  activeButtonNumber = activeButton.textContent;
+  if (skipSave) {
+    completeFlag = true;
+  } else {
+    completeFlag = saveActivePuzzle(activeButtonNumber, sourceElement);
+  }
+  activeButton.classList.remove("scroll-button-complete");
+  //activeButton.classList.remove("scroll-button-error");
+  if (completeFlag) {
+    activeButton.classList.add("scroll-button-complete");
+    //activeButton.classList.remove("scroll-button-error");
+  } else {
+    activeButton.classList.remove("scroll-button-complete");
+    //activeButton.classList.add("scroll-button-error");
+  }
+  //set the active button
+  otherButtons = sourceElement.parentElement.querySelectorAll(".input-window-scroll-button");
+  otherButtons.forEach(function(button) {
+    if (button.textContent != sourceElement.textContent) {
+      button.classList.remove("scroll-button-active");
+    }
+  })
+  sourceElement.classList.add("scroll-button-active");
+  //sourceElement.classList.remove("scroll-button-complete");
+  //sourceElement.classList.remove("scroll-button-error");
+  //reset and reload the input fields
+  puzzleStore = JSON.parse(sourceElement.parentElement.querySelector("input.temporary-puzzle-store").value);
+  puzzleToLoad = puzzleStore[puzzleNumber-1];
+  sourceElement.parentElement.querySelector("th[contenteditable]").innerHTML = puzzleToLoad.link;
+  clueCells = sourceElement.parentElement.querySelectorAll("td[contenteditable]");
+  clueTypeCells = sourceElement.parentElement.querySelectorAll(".input-window-type-select");
+  for(let i = 0; i < clueCells.length; i+=2) {
+    clueCells[i].innerHTML = puzzleToLoad.clues[i/2].c;
+    clueCells[i+1].innerHTML = puzzleToLoad.clues[i/2].r;
+    switch (puzzleToLoad.clues[i/2].t) {
+      case "i":
+        clueTypeCells[i/2].innerHTML = "Image";
+        break;
+      case "t":
+      default:
+        clueTypeCells[i/2].innerHTML = "Text";
+        break;
+    }
+  }
+}
+
+function saveActivePuzzle(subRoundNumber, sourceElement) {
+  roundNumberIndex = parseInt(subRoundNumber)-1;
+  emptyPuzzleObj = {"link":"", "clues":[{"t":"", "c":"", "r":""},{"t":"", "c":"", "r":""},{"t":"", "c":"", "r":""},{"t":"", "c":"", "r":""}]}; //t = type (t for text, i for image), c for the clue text, r for the reveal text (optional)
+  //save the puzzle currently being edited before moving to another button
+  //get the required elements
+  connectionText = sourceElement.parentElement.querySelector("th[contenteditable]").innerHTML;
+  clueCells = sourceElement.parentElement.querySelectorAll("td[contenteditable]");
+  clueTypeCells = sourceElement.parentElement.querySelectorAll(".input-window-type-select");
+  puzzleStoreField = sourceElement.parentElement.querySelector("input.temporary-puzzle-store");
+  //process the previous puzzle object
+  previousAllPuzzles = JSON.parse(puzzleStoreField.value);
+  if (Object.keys(previousAllPuzzles).length == 0) {
+    //an empty object, so create the basic JSON object
+    emptyPuzzleClone = JSON.parse(JSON.stringify(emptyPuzzleObj));
+    previousAllPuzzles = Array(6).fill(emptyPuzzleClone);
+  }
+  completeFlag = true;
+  newPuzzle = emptyPuzzleObj;
+  newPuzzle.link = connectionText;
+  if (connectionText == "") {
+    completeFlag = false;
+  }
+  for(let i = 0; i < clueCells.length; i+=2) {
+    clueText = clueCells[i].innerHTML;
+    newPuzzle.clues[i/2].c = clueText;
+    if (clueText == "") {
+      completeFlag = false;
+    }
+    revealText = clueCells[i+1].innerHTML;
+    newPuzzle.clues[i/2].r = revealText;
+    typeText = clueTypeCells[i/2].innerHTML;
+    if (typeText == "Image") {
+      newPuzzle.clues[i/2].t = "i";
+    } else if (typeText == "Text") {
+      newPuzzle.clues[i/2].t = "t";
+    } else {
+      newPuzzle.clues[i/2].t = "t";
+      completeFlag = false;
+    }
+  }
+  previousAllPuzzles[roundNumberIndex] = newPuzzle;
+  puzzleStoreField.value = JSON.stringify(previousAllPuzzles);
+  return completeFlag //true means no issues found so mark button green, false means an empty field so mark it red
+}
+
+function switchClueType(sourceElement) {
+  switch(sourceElement.innerHTML) {
+    case "Text":
+      sourceElement.innerHTML = "Image";
+      break;
+    case "Image":
+      sourceElement.innerHTML = "Text";
+      break;
+  }
+  autoSaveRound1or2(sourceElement);
+  alertUnsavedChanges();
+}
+
+function generateRound1Schedule() {
+  inputWindows = document.getElementById("scheduler-round-1-tab").querySelectorAll(".scheduler-input-window");
+  round1Schedule = [];
+  for(let i = 0; i < inputWindows.length; i++) {
+    inputWindow = inputWindows[i];
+    hiddenDataField = inputWindow.querySelector("input.temporary-puzzle-store");
+    subRoundSchedule = JSON.parse(hiddenDataField.value);
+    //could do with a validation mechanism here - return false if an error is found
+    round1Schedule.push(subRoundSchedule);
+  }
+  gameSchedule.round1 = round1Schedule;
+  return round1Schedule
+}
+
+function loadRound1Schedule() {
+  removeAllSubRounds(1, false);
+  round1Schedule = gameSchedule.round1;
+  for(let i = 0; i < round1Schedule.length; i++) {
+    subRoundSchedule = round1Schedule[i];
+    addNewSubRound(1);
+    inputWindows = document.getElementById("scheduler-round-1-tab").querySelectorAll(".scheduler-input-window");
+    inputWindow = inputWindows[inputWindows.length - 1];
+    hiddenDataField = inputWindow.querySelector("input.temporary-puzzle-store");
+    hiddenDataField.value = JSON.stringify(subRoundSchedule);
+    firstButton = inputWindow.querySelectorAll(".input-window-scroll-button")[5]; //Click the first button to load the schedule for that subround
+    makePuzzleNumberActive(1, 1, firstButton, true);
+  }
+}
+
+function generateRound2Schedule() {
+  inputWindows = document.getElementById("scheduler-round-2-tab").querySelectorAll(".scheduler-input-window");
+  round2Schedule = [];
+  for(let i = 0; i < inputWindows.length; i++) {
+    inputWindow = inputWindows[i];
+    hiddenDataField = inputWindow.querySelector("input.temporary-puzzle-store");
+    subRoundSchedule = JSON.parse(hiddenDataField.value);
+    //could do with a validation mechanism here - return false if an error is found
+    round2Schedule.push(subRoundSchedule);
+  }
+  gameSchedule.round2 = round2Schedule;
+  return round2Schedule
+}
+
+function loadRound2Schedule() {
+  removeAllSubRounds(2, false);
+  round2Schedule = gameSchedule.round2;
+  for(let i = 0; i < round2Schedule.length; i++) {
+    subRoundSchedule = round2Schedule[i];
+    addNewSubRound(2);
+    inputWindows = document.getElementById("scheduler-round-2-tab").querySelectorAll(".scheduler-input-window");
+    inputWindow = inputWindows[inputWindows.length - 1];
+    hiddenDataField = inputWindow.querySelector("input.temporary-puzzle-store");
+    hiddenDataField.value = JSON.stringify(subRoundSchedule);
+    firstButton = inputWindow.querySelectorAll(".input-window-scroll-button")[5]; //Click the first button to load the schedule for that subround
+    makePuzzleNumberActive(2, 1, firstButton, true);
   }
 }
 
@@ -289,7 +500,7 @@ function generateMissingVowelsSchedule() {
   missingVowelsSchedule = [];
   for(let i = 0; i < inputWindows.length; i++) {
     inputWindow = inputWindows[i];
-    categoryTitle = inputWindow.querySelector(".input-window-title [contenteditable]").innerText;
+    categoryTitle = inputWindow.querySelector(".input-window-title [contenteditable]").textContent;
     if (categoryTitle === "") {
       alert("Error saving schedule (missing vowels round):\nOne or more categories does not have a title");
       return false
@@ -298,8 +509,8 @@ function generateMissingVowelsSchedule() {
     missingVowelsSchedule.push(categorySchedule);
     dataCells = inputWindow.querySelectorAll("td");
     for(let j = 0; j < dataCells.length; j+=2) {
-      answerText = dataCells[j].innerText;
-      questionText = dataCells[j+1].innerText;
+      answerText = dataCells[j].textContent;
+      questionText = dataCells[j+1].textContent;
       if (answerText === "" || questionText === "") {
         alert("Error saving schedule (missing vowels round):\nA question/answer is missing");
         return false
@@ -317,17 +528,26 @@ function loadMissingVowelsSchedule() {
   missingVowelsSchedule = gameSchedule.round4;
   for(let i = 0; i < missingVowelsSchedule.length; i++) {
     categorySchedule = missingVowelsSchedule[i];
-    addMissingVowelsCategory();
+    addNewSubRound(4);
     inputWindows = document.getElementById("scheduler-round-4-tab").querySelectorAll(".scheduler-input-window");
     inputWindow = inputWindows[inputWindows.length - 1];
-    inputWindow.querySelector(".input-window-title [contenteditable]").innerText = categorySchedule.cat;
+    inputWindow.querySelector(".input-window-title [contenteditable]").textContent = categorySchedule.cat;
     dataCells = inputWindow.querySelectorAll("td");
     for(let j = 0; j < dataCells.length; j+=2) {
-      dataCells[j].innerText = categorySchedule.list[j/2].a;
-      dataCells[j+1].innerText = categorySchedule.list[j/2].q;
+      dataCells[j].textContent = categorySchedule.list[j/2].a;
+      dataCells[j+1].textContent = categorySchedule.list[j/2].q;
     }
   }
 }
+
+/*function loadMissingVowelsFromText() {
+  rawSchedule = prompt("Paste your missing vowels questions below (no categoires, answers only, newline between each)\nThis will erase the current missing vowels questions");
+  importedSchedule = rawSchedule.split("\n");
+  missingVowelsSchedule = [];
+  for(let i = 0; i < importedSchedule.length; i++) {
+    console.log("Not done yet!");
+  }
+}*/
 
 //PAGE LOAD FUNCTIONS
 
