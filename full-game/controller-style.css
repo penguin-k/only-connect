@@ -17,6 +17,14 @@ body {
   text-align: center;
   margin-top: 0px;
 }
+.error-tinytitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666666;
+  text-align: center;
+  margin-top: 0px;
+  cursor: pointer;
+}
 .full-page-alert {
   position: fixed;
   z-index: 100;
@@ -29,6 +37,133 @@ body {
   border: solid black;
   padding: 15px;
 }
-#popup-blocked-alert {
+#full-page-alert {
   display: none;
+}
+table {
+  width: 100%;
+}
+#header-table th {
+  font-size: 25px;
+}
+#header-table td, #header-table th, #game-table td, #buttons-table td {
+  border-collapse: collapse;
+  border: solid black 2px;
+}
+.hieroglyph-button {
+  background-color: #e9e9e9;
+  color: black;
+  text-align: center;
+  vertical-align: top;
+  font-size: 46px;
+  width: 16.6%;
+  display: table-cell;
+  padding: 0px;
+}
+.active-hieroglyph-button {
+  background-color: rgb(255, 255, 122);
+}
+.disabled-hieroglyph-button {
+  background-color: #666666;
+}
+.hieroglyph-button:not(.active-hieroglyph-button):not(.disabled-hieroglyph-button) {
+  cursor: pointer;
+}
+.hieroglyph-button:not(.active-hieroglyph-button):not(.disabled-hieroglyph-button):hover {
+  filter: brightness(70%);
+}
+.hieroglyph-button:not(.active-hieroglyph-button):not(.disabled-hieroglyph-button):active {
+  filter: brightness(30%);
+}
+#game-table td {
+  padding: 3px;
+  width: 50%;
+}
+.game-clue-cell {
+  height: 90px;
+  background: #bbbbbb;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+  font-weight: 700;
+}
+.game-clue-cell-revealed {
+  background: linear-gradient(0deg, rgb(61, 96, 141) 0%, rgb(75, 142, 197) 100%);
+  color: white;
+}
+.game-clue-cell-revealed.game-clue-cell-image {
+  color: black;
+  font-size: 29px;
+  text-shadow: 0px 0px 6px white;
+}
+.game-clue-cell-image {
+  background-image: url(https://docs.google.com/drawings/d/e/2PACX-1vTop8379_x3FXP-x27dUwyZR23rRd_dbrq6sIwQ5l5I4n4B_NsM9VexXdugxFaT_n4f-wrzDrtUdrki/pub?w=960&h=600);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.game-clue-cell:not(.game-clue-cell-revealed) {
+  cursor: pointer;
+}
+.game-clue-cell:not(.game-clue-cell-revealed):hover {
+  filter: brightness(70%);
+}
+.game-clue-cell:not(.game-clue-cell-revealed):active {
+  filter: brightness(30%);
+}
+#game-connection-cell {
+  background: #eeeeee;
+  font-size: 18px;
+  font-weight: 700;
+}
+.connection-revealed {
+  background: #b8ffa6 !important;
+}
+#buttons-table th {
+  border-collapse: collapse;
+  font-weight: 700;
+  width: 50%;
+  text-align: center;
+}
+.control-button {
+  border-radius: 20px;
+  padding: 5px;
+  text-align: center;
+  font-weight: 500;
+}
+.attempt-solve-button.control-button-active {
+  background: #a8d3ff;
+}
+.correct-button.control-button-active {
+  background: #a0ff93;
+}
+.incorrect-button.control-button-active {
+  background: #ffa6a6;
+}
+.game-flow-button.control-button-active {
+  background: #f9ffa6;
+}
+.control-button:not(.control-button-active) {
+  background: #dddddd;
+  font-weight: 500;
+  color: #aaaaaa;
+}
+.control-button-active {
+  cursor: pointer;
+}
+.control-button-active:hover {
+  filter: brightness(70%);
+}
+.control-button-active:active {
+  filter: brightness(30%);
+}
+.team-cell-active {
+  color: red;
+}
+.team-name-cell:hover, .team-points-cell:hover {
+  background-color: #e9e9e9;
+}
+.team-name-cell:active, .team-points-cell:active {
+  background-color: #acacac;
 }

@@ -14,12 +14,76 @@
 </head>
 
 <body onload="pageLoadInit()">
-  <p>Controller loaded successfully</p>
+  <table id="header-table">
+    <tr>
+      <th colspan=6 id="round-name-cell">Only Connect Live</th>
+    </tr>
+    <tr>
+      <td class="hieroglyph-button" onclick="selectHieroglyph(this)">𓇌</td>
+      <td class="hieroglyph-button" onclick="selectHieroglyph(this)">𓃭</td>
+      <td class="hieroglyph-button" onclick="selectHieroglyph(this)">𓎛</td>
+      <td class="hieroglyph-button" onclick="selectHieroglyph(this)">𓆑</td>
+      <td class="hieroglyph-button" onclick="selectHieroglyph(this)">𓈗</td>
+      <td class="hieroglyph-button" onclick="selectHieroglyph(this)">𓂀</td>
+    </tr>
+  </table>
+
+  <br>
+  <table id="game-table">
+    <tr>
+      <td id="game-timer-cell">Ready to begin</td>
+      <td id="game-points-cell">Waiting for host</td>
+    </tr>
+    <tr>
+      <td class="game-clue-cell" onclick="revealClue(this, 1)"></td>
+      <td class="game-clue-cell" onclick="revealClue(this, 2)"></td>
+    </tr>
+    <tr>
+      <td class="game-clue-cell" onclick="revealClue(this, 3)"></td>
+      <td class="game-clue-cell" onclick="revealClue(this, 4)"></td>
+    </tr>
+    <tr>
+      <td id="game-connection-cell" colspan=2></td>
+    </tr>
+  </table>
+
+  <table id="buttons-table">
+    <tr>
+      <th class="team-name-cell">Team 1</th>
+      <th class="team-name-cell">Team 2</th>
+    </tr>
+    <tr>
+      <th class="team-points-cell">0 points</th>
+      <th class="team-points-cell">0 points</th>
+    </tr>
+    <tr>
+      <td class="control-button attempt-solve-button" onclick="attemptSolve(this, 1)">Attempt solve</td>
+      <td class="control-button attempt-solve-button" onclick="attemptSolve(this, 2)">Attempt solve</td>
+    </tr>
+    <tr>
+      <td class="control-button correct-button" onclick="recordAnswerAsCorrect(this, 1)">Correct</td>
+      <td class="control-button correct-button" onclick="recordAnswerAsCorrect(this, 2)">Correct</td>
+    </tr>
+    <tr>
+      <td class="control-button incorrect-button" onclick="recordAnswerAsIncorrect(this, 1)">Incorrect</td>
+      <td class="control-button incorrect-button" onclick="recordAnswerAsIncorrect(this, 2)">Incorrect</td>
+    </tr>
+    <br>
+    <tr>
+      <td class="control-button game-flow-button" id="reveal-button" onclick="revealAnswer(this)">Reveal answer</td>
+      <td class="control-button game-flow-button" id="notes-button">Show notes</td>
+    </tr>
+    <tr>
+      <td class="control-button game-flow-button" id="reset-timer-button" onclick="restartTimer(this)">Restart timer</td>
+      <td class="control-button game-flow-button" id="next-question-button" onclick="preloadNextQuestion(this)">Next question</td>
+    </tr>
+  </table>
 
   <!-- MODALS/ALERTS -->
-  <div class="full-page-alert" id="popup-blocked-alert">
-    <p class="error-title">Failed to load contestant screen</p>
-    <p class="error-subtitle">It looks like you might have popups blocked<br>Please enable popups, then reload the page to start</p>
+  <div class="full-page-alert" id="full-page-alert">
+    <p class="error-title" id="full-page-alert-title">Failed to load contestant screen</p>
+    <p class="error-subtitle" id="full-page-alert-subtitle">It looks like you might have popups blocked<br>Please enable popups, then reload the page to start</p>
+    <p class="error-tinytitle" id="full-page-alert-tinytitle"></p>
   </div>
 </body>
 </html>
