@@ -1,4 +1,4 @@
-const timerLength = [30, 10, 120]; //Time allowed per question in seconds, by round
+const timerLength = [30, 30, 120]; //Time allowed per question in seconds, by round
 countdownTimer = null; //Stores the countdown timer object
 timeRemaining = 0; //Stores the time remaining in seconds
 displayWindow = null;
@@ -13,6 +13,7 @@ pointsAvailable = 0; //Points available for a correct answer
 pointsType = "normal"; //normal for most, steal if attempting for a bonus point
 activeTeam = 0; //1 or 2, depending on the active team
 scores = [0, 0]; //An array of the current scores
+teamNames = ["Team 1", "Team 2"]; //An array of the team names
 
 //Load question files
 function loadQuestionFileLocalStorage() {
@@ -106,6 +107,7 @@ function loadNewRound(skipDelete=false) {
 function startTimer() {
   clearInterval(countdownTimer);
   timeRemaining = timerLength[activeRoundNumber-1];
+  postMessageToDisplay({"message":"timerStarted", "timeRemaining":timeRemaining});
   if (timeRemaining == 0) {
     document.getElementById("game-timer-cell").innerHTML = `Unlimited time`;
     return
@@ -117,6 +119,7 @@ function startTimer() {
     if (timeRemaining < 0) {
       clearInterval(countdownTimer);
       document.getElementById("game-timer-cell").innerHTML = "<strong>OUT OF TIME</strong>";
+      postMessageToDisplay({"message":"outOfTime"});
     }
   }, 1000);
 }
@@ -151,6 +154,7 @@ function recordAnswerAsCorrect(sourceElement, teamNumber) {
   document.getElementsByClassName("incorrect-button")[teamNumber-1].classList.remove("control-button-active");
   scores[teamNumber-1] += pointsAvailable;
   document.getElementById("reveal-button").classList.add("control-button-active");
+  enableShowNotesButton();
   updateScoresTable();
 }
 
@@ -184,15 +188,37 @@ function recordAnswerAsIncorrect(sourceElement, teamNumber) {
     updateScoresTable();
   } else {
     document.getElementById("reveal-button").classList.add("control-button-active");
+    enableShowNotesButton();
+  }
+}
+
+//Enables the 'show notes' button if notes are available
+function enableShowNotesButton() {
+  var needed = false;
+  for (let i = 0; i < activeQuestion.clues.length; i++) {
+    note = activeQuestion.clues[i].r;
+    if (note !== "") {
+      needed = true;
+    }
+  }
+  if (needed) {
+    document.getElementById("notes-button").classList.add("control-button-active");
   }
 }
 
 //Shows explanatory notes saved with the clues - useful for images
-function showNotes() {
+function showNotes(sourceElement) {
+  if (!sourceElement.classList.contains("control-button-active")) {
+    return
+  }
+  sourceElement.classList.remove("control-button-active");
   clueCells = document.querySelectorAll(".game-clue-cell");
   for (let i = 0; i < clueCells.length; i++) {
     clueCell = clueCells[i];
-    clueCell.classList.add("game-clue-cell-revealed");
+    note = activeQuestion.clues[i].r;
+    if (note !== "") {
+      clueCell.innerHTML = `<p class='game-clue-cell-note'>${note}</p>`;
+    }
   }
 }
 
@@ -210,6 +236,37 @@ function revealAnswer(sourceElement) {
     }
     document.getElementById("game-connection-cell").classList.add("connection-revealed");
     document.getElementById("next-question-button").classList.add("control-button-active");
+  }
+}
+
+//Change a team name
+/*function changeTeamName(teamNumber) {
+  newName = prompt(`Enter a new name for team ${teamNames[teamNumber-1]}:`);
+  if (newName !== "") {
+    teamNames[teamNumber-1] = newName;
+    updateTeamNames();
+  }
+}*/
+function changeTeamName(sourceElement) {
+  sourceElement.contentEditable = true;
+  sourceElement.focus();
+}
+function processTeamNameChange(sourceElement, teamNumber) {
+  newName = sourceElement.innerHTML;
+  sourceElement.contentEditable = false;
+  if (!newName.match(/[^\w\s.&,!?@:]/g) && !teamNames.includes(newName) && newName!=="") {
+    teamNames[teamNumber-1] = newName;
+    postMessageToDisplay({"message":"teamNameChange"});
+  }
+  updateTeamNames();
+}
+
+//Update the team names table
+function updateTeamNames() {
+  nameCells = document.querySelectorAll(".team-name-cell");
+  for (let i = 0; i < nameCells.length; i++) {
+    nameCell = nameCells[i];
+    nameCell.innerHTML = teamNames[i];
   }
 }
 
@@ -416,10 +473,10 @@ function postMessageToDisplay(message) {
 window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event) {
   console.log(event);
-  if (event.data == "Display loaded") {
+  if (event.data.message == "displayLoaded") {
     hideFullPageErrorMessage();
   }
-  if (event.data == "Display closed") {
+  if (event.data.message == "displayClosed") {
     showFullPageErrorMessage("Contestant screen closed", "The contestant screen has been closed<br>Click <a href='javascript:loadDisplayWindow()'>here</a> to reopen it", "<span onclick='hideFullPageErrorMessage()'>Dismiss</span>")
   }
 }
@@ -448,6 +505,7 @@ function loadDisplayWindow() {
 
 function initialiseGame() {
   switchActiveTeam();
+  updateTeamNames();
 }
 
 //Page load

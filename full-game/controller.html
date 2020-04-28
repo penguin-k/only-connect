@@ -49,8 +49,8 @@
 
   <table id="buttons-table">
     <tr>
-      <th class="team-name-cell">Team 1</th>
-      <th class="team-name-cell">Team 2</th>
+      <th class="team-name-cell" onclick="changeTeamName(this)" onblur="processTeamNameChange(this, 1)"></th>
+      <th class="team-name-cell" onclick="changeTeamName(this)" onblur="processTeamNameChange(this, 2)"></th>
     </tr>
     <tr>
       <th class="team-points-cell">0 points</th>
@@ -71,7 +71,7 @@
     <br>
     <tr>
       <td class="control-button game-flow-button" id="reveal-button" onclick="revealAnswer(this)">Reveal answer</td>
-      <td class="control-button game-flow-button" id="notes-button">Show notes</td>
+      <td class="control-button game-flow-button" id="notes-button" onclick="showNotes(this)">Show notes</td>
     </tr>
     <tr>
       <td class="control-button game-flow-button" id="reset-timer-button" onclick="restartTimer(this)">Restart timer</td>

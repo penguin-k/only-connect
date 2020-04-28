@@ -1,3 +1,84 @@
 body {
   font-family: 'IBM Plex Sans', sans-serif;
+  background: linear-gradient(22deg, rgba(53,82,140,1) 0%, rgba(227,237,239,1) 100%);
+  background-attachment: fixed;
+}
+#hieroglyphs-selection table {
+  margin: 0 auto;
+  width: 55%;
+  margin-top: 14%;
+  border-spacing: 12px;
+}
+@media only screen and (max-width: 1250px) {
+  #hieroglyphs-selection table {
+    width: 95%;
+    border-spacing: 5px;
+  }
+}
+.hieroglyph-box {
+  border-collapse: collapse;
+  text-align: center;
+  color: white;
+  font-size: 110px;
+  width: 33%;
+  font-weight: 500;
+  padding: 0px;
+  line-height: 80px;
+  height: 120px;
+  border-radius: 8px;
+}
+.hieroglyph-box:not(.hieroglyph-selected):not(.hieroglyph-complete) {
+  background: linear-gradient(0deg, rgba(16,20,70,1) 0%, rgba(33,60,115,1) 100%);
+  border: solid gray 2px;
+}
+.hieroglyph-box.hieroglyph-selected {
+  /*background: linear-gradient(160deg, rgba(62,183,184,1) 0%, rgba(41,134,135,1) 50%, rgba(62,183,184,1) 100%);*/
+  animation-name: hieroglyph-selected-pulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  border: solid #31a7a8 2px;
+}
+@keyframes hieroglyph-selected-pulse {
+  0% {
+    background: #3eb7b8;
+  }
+  50% {
+    background: #36a6a8;
+  }
+  100% {
+    background: #3eb7b8;
+  }
+}
+.hieroglyph-box.hieroglyph-complete {
+  background: linear-gradient(160deg, rgba(210,242,255,1) 0%, rgba(170,192,224,1) 100%);
+  border: solid #abbad1 2px;
+  color: #aaaaaa;
+}
+.hieroglyph-box > p {
+  margin: 0px;
+}
+#hieroglyph-two-reeds {
+  font-size: 120px;
+  font-weight: 700;
+}
+#hieroglyph-lion {
+  position: relative;
+  top: -54px;
+  font-size: 250px;
+}
+#hieroglyph-twisted-flax {
+  font-weight: 700;
+}
+#hieroglyph-horned-viper {
+  font-size: 210px;
+  position: relative;
+  top: -50px;
+}
+#hieroglyph-water {
+  font-weight: 700;
+}
+#hieroglyph-eye {
+  font-size: 150px;
+  position: relative;
+  top: -16px;
 }

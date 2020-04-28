@@ -22,10 +22,10 @@ function receiveMessage(event) {
 window.addEventListener('beforeunload', (event) => {
   event.preventDefault();
   event.returnValue = '';
-  postMessageToController("Display closed")
+  postMessageToController({"message":"displayClosed"});
 });
 
 function pageLoadInit() {
   console.log("Page loaded");
-  postMessageToController("Display loaded");
+  postMessageToController({"message":"displayLoaded"});
 }
