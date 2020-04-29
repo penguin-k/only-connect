@@ -2,11 +2,21 @@ body {
   font-family: 'IBM Plex Sans', sans-serif;
   background: linear-gradient(22deg, rgba(53,82,140,1) 0%, rgba(227,237,239,1) 100%);
   background-attachment: fixed;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+  -o-user-select: none;
+}
+#hieroglyphs-selection {
+  position: absolute;
+  top: 30vh;
+  left: 0px;
+  width: 100%;
 }
 #hieroglyphs-selection table {
   margin: 0 auto;
   width: 55%;
-  margin-top: 14%;
   border-spacing: 12px;
 }
 @media only screen and (max-width: 1250px) {
@@ -43,7 +53,7 @@ body {
     background: #3eb7b8;
   }
   50% {
-    background: #36a6a8;
+    background: #288081;
   }
   100% {
     background: #3eb7b8;
@@ -81,4 +91,96 @@ body {
   font-size: 150px;
   position: relative;
   top: -16px;
+}
+#clue-boxes {
+  display: none;
+}
+#clue-boxes table {
+  margin: 0 auto;
+  width: 90%;
+  margin-top: 5%;
+  border-spacing: 12px;
+}
+.clue-box {
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 35px;
+  width: 25%;
+  font-weight: 500;
+  padding: 3px 6px;
+  line-height: 35px;
+  height: 150px;
+  border-radius: 8px;
+  transition: opacity 0.2s linear;
+  position: relative;
+}
+.clue-box:not(.clue-box-revealed) {
+  opacity: 0;
+}
+.clue-box-revealed {
+  background: linear-gradient(160deg, rgba(210,242,255,1) 0%, rgba(170,192,224,1) 100%);
+  border: solid #abbad1 2px;
+  color: #555555;
+  opacity: 1;
+}
+.clue-box-image {
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/2/28/InternetSlowdown_Day.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+#clue-box-question-mark {
+  font-size: 140px;
+  position: absolute;
+  background: linear-gradient(0deg, rgba(16,20,70,1) 0%, rgba(33,60,115,1) 100%);
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  line-height: 140px;
+  border-radius: 8px;
+  color: white;
+}
+.clue-box-note {
+  color: rgb(21, 61, 87);
+}
+.clue-box-note-image {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px;
+}
+.clue-box-connection {
+  background: linear-gradient(0deg, #101446 0%, #213c73 100%);
+  border: solid #1e3563 2px;
+  color: white;
+  font-size: 40px;
+  text-align: center;
+  border-radius: 8px;
+  transition: opacity 0.2s linear;
+}
+.clue-box-timer {
+  border-collapse: collapse;
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  width: 25%;
+  font-weight: 700;
+  padding: 2px;
+  height: auto;
+  border-radius: 8px;
+  background: #4482cf;
+  border: solid rgba(33,60,115,1);
+  position: relative;
+  z-index: 100;
+  transition: opacity 0.2s linear;
+}
+.clue-box-timer-bar {
+  background-color: rgb(13, 50, 105);
+  width: 0px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -10;
+  /*transition: width 30s linear 0s;*/
 }

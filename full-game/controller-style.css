@@ -1,5 +1,10 @@
 body {
   font-family: 'IBM Plex Sans', sans-serif;
+  -moz-user-select: none; 
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none;
+  -o-user-select: none;
 }
 
 
@@ -98,7 +103,7 @@ table {
   text-shadow: 0px 0px 6px white;
 }
 .game-clue-cell-image {
-  background-image: url(https://docs.google.com/drawings/d/e/2PACX-1vTop8379_x3FXP-x27dUwyZR23rRd_dbrq6sIwQ5l5I4n4B_NsM9VexXdugxFaT_n4f-wrzDrtUdrki/pub?w=960&h=600);
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/2/28/InternetSlowdown_Day.gif);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;

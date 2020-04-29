@@ -75,6 +75,7 @@ function loadNewRound(skipDelete=false) {
     alert("Game complete");
     return
   }
+  postMessageToDisplay({"message":"newRound", "number":activeRoundNumber});
   //Reset all buttons to their default state, ready for a new round
   //hieroglyph buttons
   allButtons = document.querySelectorAll(".hieroglyph-button");
@@ -83,6 +84,10 @@ function loadNewRound(skipDelete=false) {
     button.classList.remove("active-hieroglyph-button");
     button.classList.remove("disabled-hieroglyph-button");
     activeHieroglyph = null;
+  }
+  if (activeRoundNumber == 1 || activeRoundNumber == 2) {
+    postMessageToDisplay({"message":"showHieroglyphSelect"});
+    updateHieroglyphList();
   }
   //game table
   document.getElementById("game-timer-cell").innerHTML = "Start new round";
@@ -107,7 +112,7 @@ function loadNewRound(skipDelete=false) {
 function startTimer() {
   clearInterval(countdownTimer);
   timeRemaining = timerLength[activeRoundNumber-1];
-  postMessageToDisplay({"message":"timerStarted", "timeRemaining":timeRemaining});
+  postMessageToDisplay({"message":"timerStarted", "seconds":timeRemaining});
   if (timeRemaining == 0) {
     document.getElementById("game-timer-cell").innerHTML = `Unlimited time`;
     return
@@ -126,6 +131,7 @@ function startTimer() {
 
 //From the restart timer button
 function restartTimer(sourceElement) {
+  return //TESTING
   if (!sourceElement.classList.contains("control-button-active")) {
     return
   }
@@ -143,6 +149,7 @@ function attemptSolve(sourceElement, teamNumber) {
   //Stop the clock
   clearInterval(countdownTimer);
   document.getElementById("reset-timer-button").classList.remove("control-button-active"); 
+  postMessageToDisplay({"message":"attemptingSolve", "team":teamNumber});
 }
 
 //Record the team's answer as correct
@@ -186,6 +193,7 @@ function recordAnswerAsIncorrect(sourceElement, teamNumber) {
     document.getElementsByClassName("correct-button")[teamButtonIndex].classList.add("control-button-active");
     document.getElementsByClassName("incorrect-button")[teamButtonIndex].classList.add("control-button-active");
     updateScoresTable();
+    postMessageToDisplay({"message":"attemptingSteal", "team":teamButtonIndex+1});
   } else {
     document.getElementById("reveal-button").classList.add("control-button-active");
     enableShowNotesButton();
@@ -220,6 +228,7 @@ function showNotes(sourceElement) {
       clueCell.innerHTML = `<p class='game-clue-cell-note'>${note}</p>`;
     }
   }
+  postMessageToDisplay({"message":"showNotes"});
 }
 
 //Reveals all clues and the connection
@@ -237,6 +246,7 @@ function revealAnswer(sourceElement) {
     document.getElementById("game-connection-cell").classList.add("connection-revealed");
     document.getElementById("next-question-button").classList.add("control-button-active");
   }
+  postMessageToDisplay({"message":"revealConnection"});
 }
 
 //Change a team name
@@ -303,6 +313,7 @@ function preloadNextQuestion(sourceElement, skipDelete=false) {
         button.classList.add("disabled-hieroglyph-button");
       }
     }
+    updateHieroglyphList();
     if (!skipDelete && activeQuestion !== null) { //If the active question isn't set, don't delete the first (assume new round)
       const indexToRemove = activeRound.indexOf(activeQuestion);
       if (indexToRemove > -1) {
@@ -311,6 +322,9 @@ function preloadNextQuestion(sourceElement, skipDelete=false) {
     }
     if (activeRound.length == 0) {
       loadNewRound();
+    }
+    if (activeRoundNumber == 1 || activeRoundNumber == 2) {
+      postMessageToDisplay({"message":"showHieroglyphSelect"});
     }
     //game table
     document.getElementById("game-timer-cell").innerHTML = "Select hieroglyph";
@@ -333,7 +347,8 @@ function preloadNextQuestion(sourceElement, skipDelete=false) {
     button.classList.remove("control-button-active");
   });
   pointsType = "normal";
-  //document.getElementById("next-question-button").classList.add("control-button-active"); //TESTING
+  //document.getElementB"yId("next-question-button").classList.add("control-button-active"); //TESTING
+  postMessageToDisplay({"message":"hideQuestionsRound1or2"});
 }
 
 //Select and display the active team
@@ -379,6 +394,11 @@ function loadNextQuestion() {
         clueCell.style.backgroundImage = `url(${clue.c})`;
       }  
     } 
+    if (activeRoundNumber == 1) {
+      postMessageToDisplay({"message":"loadNewQuestionRound1", "question":activeQuestion});
+    } else if (activeRoundNumber == 2) {
+      postMessageToDisplay({"message":"loadNewQuestionRound2", "question":activeQuestion});
+    }
   }
 }
 
@@ -395,9 +415,25 @@ function selectHieroglyph(sourceElement) {
         activeHieroglyph = i;
       }
     }
-    //activeHieroglyph = null; //TESTING - remove for production
+    updateHieroglyphList();
     loadNextQuestion();
   }
+}
+
+function updateHieroglyphList() {
+  allButtons = document.querySelectorAll(".hieroglyph-button");
+  hieroglyphList = [{"name":"two-reeds", "status":"normal"},{"name":"lion", "status":"normal"},{"name":"twisted-flax", "status":"normal"},{"name":"horned-viper", "status":"normal"},{"name":"water", "status":"normal"},{"name":"eye", "status":"normal"}];
+  counter = 0;
+  allButtons.forEach(function(button) {
+    if (button.classList.contains("active-hieroglyph-button")) {
+      hieroglyphList[counter].status = "active";
+    } else if (button.classList.contains("disabled-hieroglyph-button")) {
+      hieroglyphList[counter].status = "disabled";
+    }
+    counter += 1;
+  });
+  //localStorage.setItem("OCL-hieroglyph-list", JSON.stringify(hieroglyphList));
+  postMessageToDisplay({"message":"hieroglyphUpdate", "list":hieroglyphList});
 }
 
 //Update the points available counter
@@ -445,6 +481,7 @@ function revealClue(sourceElement, clueNumber) {
   //Show the buttons for this round
   document.getElementsByClassName("attempt-solve-button")[activeTeam-1].classList.add("control-button-active"); 
   document.getElementById("reset-timer-button").classList.add("control-button-active"); 
+  postMessageToDisplay({"message":"revealClue", "number":clueNumber});
 }
 
 //Show a full page error message
@@ -475,6 +512,7 @@ function receiveMessage(event) {
   console.log(event);
   if (event.data.message == "displayLoaded") {
     hideFullPageErrorMessage();
+    initialiseGame();
   }
   if (event.data.message == "displayClosed") {
     showFullPageErrorMessage("Contestant screen closed", "The contestant screen has been closed<br>Click <a href='javascript:loadDisplayWindow()'>here</a> to reopen it", "<span onclick='hideFullPageErrorMessage()'>Dismiss</span>")
@@ -504,6 +542,9 @@ function loadDisplayWindow() {
 }
 
 function initialiseGame() {
+  if (!loadQuestionFileLocalStorage()) {
+    alert("Error: question file not found in local storage. Please go to the scheduler and save a game schedule")
+  }
   switchActiveTeam();
   updateTeamNames();
 }
@@ -511,10 +552,6 @@ function initialiseGame() {
 //Page load
 function pageLoadInit() {
   loadDisplayWindow();
-  if (!loadQuestionFileLocalStorage()) {
-    alert("Error: question file not found in local storage. Please go to the scheduler and save a game schedule")
-  }
-  initialiseGame();
 }
 
 
