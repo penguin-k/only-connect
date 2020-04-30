@@ -33,6 +33,13 @@ function hideHieroglyphSelect() {
   document.getElementById("hieroglyphs-selection").style.display = "none";
 }
 
+function showMissingVowels() {
+  document.getElementById("missing-vowels-holder").style.display = "block";
+}
+function hideMissingVowels() {
+  document.getElementById("missing-vowels-holder").style.display = "none";
+}
+
 function showRound1Or2Boxes() {
   document.getElementById("clue-boxes").style.display = "block";
 }
@@ -44,8 +51,8 @@ function hideRound1Or2Boxes() {
   }, 300);
 }
 
-//Loads a new round 1 question into the display screen
-function loadNewRound1Question(questionObj) {
+//Loads a new round 1 or 2 question into the display screen
+function loadNewRound1Or2Question(questionObj) {
   showRound1Or2Boxes();
   //Load the details of the next question
   cluesList = questionObj.clues;
@@ -59,34 +66,27 @@ function loadNewRound1Question(questionObj) {
       //Image question
       clueBoxesList[i].classList.add("clue-box-image");
       clueBoxesList[i].style.backgroundImage = `url(${cluesList[i].c})`;
+      if (cluesList[i].hasOwnProperty("p")) {
+        //Image positioning
+        clueBoxesList[i].style.backgroundPositionY = cluesList[i].p;
+      }
     }
     activeQuestionNotes.push(cluesList[i].r);
   }
   document.getElementsByClassName("clue-box-connection")[0].innerHTML = questionObj.link;
 }
 //Loads a new round 2 question into the display screen
-function loadNewRound2Question(questionObj) {
-  showRound1Or2Boxes();
-  //Load the details of the next question
-  cluesList = questionObj.clues;
-  clueBoxesList = document.getElementsByClassName("clue-box");
-  activeQuestionNotes = [];
-  for (let i = 0; i < cluesList.length; i++) {
-    if (cluesList[i].t == "t") {
-      //Text question
-      clueBoxesList[i].innerHTML = cluesList[i].c;
-    } else if (cluesList[i].t == "i") {
-      //Image question
-      clueBoxesList[i].classList.add("clue-box-image");
-      clueBoxesList[i].style.backgroundImage = `url(${cluesList[i].c})`;
-    }
-    activeQuestionNotes.push(cluesList[i].r);
-  }
+function loadNewRound2Question() {
   var questionMark = document.createElement("div");
   questionMark.id = "clue-box-question-mark";
   questionMark.innerHTML = "?";
   clueBoxesList[3].appendChild(questionMark);
-  document.getElementsByClassName("clue-box-connection")[0].innerHTML = questionObj.link;
+}
+//Loads a missing vowels question into the display screen
+function loadNewRound4Question(category, question) {
+  showMissingVowels();
+  document.getElementById("missing-vowels-title").innerHTML = category;
+  document.getElementById("missing-vowels-question").innerHTML = question;
 }
 
 //Reveals the given clue
@@ -144,6 +144,7 @@ function resetClueBoxes() {
     clueBox.classList.remove("clue-box-revealed");
     clueBox.classList.remove("clue-box-note");
     clueBox.style.backgroundImage = "";
+    clueBox.style.backgroundPositionY = "";
   }
   var allAnswerBoxes = document.getElementsByClassName("clue-box-connection");
   for (let answerBox of allAnswerBoxes) {
@@ -201,6 +202,31 @@ function switchToTimerBar(timeBarIndex) {
   allTimerBars[timeBarIndex-1].parentElement.style.opacity = "1";
 }
 
+//Update the team name boxes to the given values
+function updateTeamNames(names) {
+  var teamNameBoxes = document.getElementsByClassName("score-text-name");
+  for (let i = 0; i < names.length; i++) {
+    teamNameBoxes[i].innerHTML = names[i];
+  }
+}
+
+//Update the score boxes to the given values
+function updateTeamScores(scores) {
+  var teamScoreBoxes = document.getElementsByClassName("score-text-score");
+  for (let i = 0; i < scores.length; i++) {
+    teamScoreBoxes[i].innerHTML = scores[i];
+  }
+}
+
+//Put a yellow border around the current team
+function switchActiveTeam(activeTeam) {
+  var teamScoreBoxes = document.getElementsByClassName("score-box");
+  for (let box of teamScoreBoxes) {
+    box.classList.remove("score-box-active");
+  }
+  document.getElementById("score-team-"+String(activeTeam)).classList.add("score-box-active");
+}
+
 //Sending and receiving messages
 function postMessageToController(message) {
   if (targetOrigin == null) {
@@ -232,10 +258,14 @@ function receiveMessage(event) {
         startTimerBars(event.data.seconds);
         break;
       case "loadNewQuestionRound1":
-        loadNewRound1Question(event.data.question);
+        loadNewRound1Or2Question(event.data.question);
         break;
       case "loadNewQuestionRound2":
-        loadNewRound2Question(event.data.question);
+        loadNewRound1Or2Question(event.data.question);
+        loadNewRound2Question();
+        break;
+      case "loadNewQuestionRound4":
+        loadNewRound4Question(event.data.category, event.data.question);
         break;
       case "revealClue":
         hideHieroglyphSelect();
@@ -264,6 +294,15 @@ function receiveMessage(event) {
       case "hideHieroglyphSelect":
         hideHieroglyphSelect();
         break;
+      case "teamNameChange":
+        updateTeamNames(event.data.names);
+        break;
+      case "teamScoreChange":
+        updateTeamScores(event.data.scores);
+        break;
+      case "switchActiveTeam":
+        switchActiveTeam(event.data.activeTeam);
+        break;
     }
   }
 }
@@ -278,7 +317,8 @@ window.addEventListener('beforeunload', (event) => {
 
 function pageLoadInit() {
   console.log("Page loaded");
-  postMessageToController({"message":"displayLoaded"});
   hideRound1Or2Boxes();
   hideHieroglyphSelect();
+  hideMissingVowels();
+  postMessageToController({"message":"displayLoaded"});
 }

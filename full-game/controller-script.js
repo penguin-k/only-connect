@@ -48,22 +48,22 @@ function loadNewRound(skipDelete=false) {
   }
   //Load the question bank
   if (remainingSchedule.round1.length > 0) {
-    //this is a round 1
+    //move to round 1
     document.getElementById("round-name-cell").innerHTML = "Round 1: Connections";
     activeRound = remainingSchedule.round1[0];
     activeRoundNumber = 1;
   } else if (remainingSchedule.round2.length > 0) {
-    //this is a round 2
+    //move to round 2
     document.getElementById("round-name-cell").innerHTML = "Round 2: Sequences";
     activeRound = remainingSchedule.round2[0];
     activeRoundNumber = 2;
   } else if (remainingSchedule.round3.length > 0) {
-    //this is a round 3
+    //move to round 3
     document.getElementById("round-name-cell").innerHTML = "Round 3: Connecting walls";
     activeRound = remainingSchedule.round3[0];
     activeRoundNumber = 3;
   } else if (remainingSchedule.round4.length > 0) {
-    //this is a round 4
+    //move to round 4
     document.getElementById("round-name-cell").innerHTML = "Round 4: Missing vowels";
     activeRound = remainingSchedule.round4[0];
     activeRoundNumber = 4;
@@ -266,7 +266,7 @@ function processTeamNameChange(sourceElement, teamNumber) {
   sourceElement.contentEditable = false;
   if (!newName.match(/[^\w\s.&,!?@:]/g) && !teamNames.includes(newName) && newName!=="") {
     teamNames[teamNumber-1] = newName;
-    postMessageToDisplay({"message":"teamNameChange"});
+    postMessageToDisplay({"message":"teamNameChange", "names":teamNames});
   }
   updateTeamNames();
 }
@@ -292,6 +292,7 @@ function updateScoresTable() {
       pointsWord = "points";
     }
     scoreCell.innerHTML = String(scoreToShow)+" "+pointsWord;
+    postMessageToDisplay({"message":"teamScoreChange", "scores":scores});
   }
 }
 
@@ -372,6 +373,7 @@ function switchActiveTeam() {
       teamCells[2].classList.add("team-cell-active");
       break;
   }
+  postMessageToDisplay({"message":"switchActiveTeam", "activeTeam":activeTeam});
 }
 
 //Load a random question from the round
@@ -404,7 +406,7 @@ function loadNextQuestion() {
 
 //Select a hieroglyph to play - this loads a new question
 function selectHieroglyph(sourceElement) {
-  if (activeHieroglyph === null) {
+  if (activeHieroglyph === null && (activeRoundNumber == 1 || activeRoundNumber == 2) && !sourceElement.classList.contains("disabled-hieroglyph-button")) {
     //Activate the current button
     sourceElement.classList.add("active-hieroglyph-button");
     glyph = sourceElement.innerHTML;

@@ -10,9 +10,10 @@ body {
 }
 #hieroglyphs-selection {
   position: absolute;
-  top: 30vh;
+  top: 22vh;
   left: 0px;
   width: 100%;
+  display: none;
 }
 #hieroglyphs-selection table {
   margin: 0 auto;
@@ -183,4 +184,95 @@ body {
   left: 0px;
   z-index: -10;
   /*transition: width 30s linear 0s;*/
+}
+
+
+#score-table-holder {
+  position: absolute;
+  bottom: 110px;
+  left: 5vw;
+  right: 5vw;
+}
+#score-table-inner {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+}
+.score-box {
+  background: linear-gradient(0deg, rgba(8,27,60,0.9) 0%, rgba(18,56,121,0.9) 100%);
+  background-attachment: fixed;
+  color: white;
+  border-radius: 25px;
+  font-size: 40px;
+  height: 80px;
+  width: 390px;
+  margin: 0px;
+  position: absolute;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  line-height: 75px;
+}
+.score-box-active {
+  height: 75px !important;
+  width: 385px !important;
+  border: solid yellow;
+}
+#score-team-1 {
+  left: 0px;
+}
+#score-team-2 {
+  right: 0px;
+}
+.score-text-holder {
+  position: relative;
+  top: 0;
+  bottom: 0;
+}
+#score-team-1-name, #score-team-2-score {
+  text-align: left;
+  left: 0;
+  float: left;
+}
+#score-team-1-score, #score-team-2-name {
+  text-align: right;
+  right: 0;
+  float: right;
+}
+.score-text-name {
+  color: #aaaaaa;
+}
+.score-text-score {
+  color: white;
+  font-weight: 800;
+}
+
+#missing-vowels-title {
+  background: linear-gradient(0deg, rgba(8,27,60,1) 0%, rgba(18,56,121,1) 100%);
+  background-attachment: fixed;
+  color: white;
+  padding: 2vw;
+  border-radius: 25px;
+  font-size: 60px;
+  text-align: center;
+}
+#missing-vowels-question {
+  background: linear-gradient(0deg, rgba(97,145,209,1) 0%, rgba(181,216,244,1) 100%);
+  background-attachment: fixed;
+  color: #121212;
+  padding: 2vw;
+  border-radius: 25px;
+  font-size: 60px;
+  text-align: center;
+}
+#missing-vowels-holder {
+  position: absolute;
+  top: 10%;
+  left: 5vw;
+  right: 5vw;
+  display: none;
 }
