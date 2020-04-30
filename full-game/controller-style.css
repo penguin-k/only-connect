@@ -51,7 +51,7 @@ table {
 #header-table th {
   font-size: 25px;
 }
-#header-table td, #header-table th, #game-table td, #buttons-table td {
+#header-table td, #header-table th, #game-table td, #buttons-table td, #missing-vowels-table td {
   border-collapse: collapse;
   border: solid black 2px;
 }
@@ -79,6 +79,9 @@ table {
 }
 .hieroglyph-button:not(.active-hieroglyph-button):not(.disabled-hieroglyph-button):active {
   filter: brightness(30%);
+}
+#game-table {
+  display: none;
 }
 #game-table td {
   padding: 3px;
@@ -131,6 +134,28 @@ table {
 .connection-revealed {
   background: #b8ffa6 !important;
 }
+
+#missing-vowels-table {
+  display: none;
+}
+#missing-vowels-table td {
+  padding: 3px;
+  width: 50%;
+}
+#missing-vowels-category-cell {
+  background-color: #ffc1c1;
+  font-size: 18px;
+}
+#missing-vowels-question-cell {
+  background-color: #fbffc1;
+  font-size: 18px;
+}
+#missing-vowels-answer-cell {
+  background-color: #b8ffa6;
+  font-size: 18px;
+  font-weight: 700;
+}
+
 #buttons-table th {
   border-collapse: collapse;
   font-weight: 700;

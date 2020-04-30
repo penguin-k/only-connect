@@ -29,6 +29,7 @@
   </table>
 
   <br>
+  
   <table id="game-table">
     <tr>
       <td id="game-timer-cell">Ready to begin</td>
@@ -46,6 +47,19 @@
       <td id="game-connection-cell" colspan=2></td>
     </tr>
   </table>
+  <table id="missing-vowels-table">
+    <tr>
+      <td id="missing-vowels-category-cell">Category</td>
+    </tr>
+    <tr>
+      <td id="missing-vowels-question-cell">Question</td>
+    </tr>
+    <tr>
+      <td id="missing-vowels-answer-cell">Answer</td>
+    </tr>
+  </table>
+
+  <br>
 
   <table id="buttons-table">
     <tr>
@@ -53,8 +67,8 @@
       <th class="team-name-cell" onclick="changeTeamName(this)" onblur="processTeamNameChange(this, 2)"></th>
     </tr>
     <tr>
-      <th class="team-points-cell">0 points</th>
-      <th class="team-points-cell">0 points</th>
+      <th class="team-points-cell" onclick="changeTeamScore(1)">0 points</th>
+      <th class="team-points-cell" onclick="changeTeamScore(2)">0 points</th>
     </tr>
     <tr>
       <td class="control-button attempt-solve-button" onclick="attemptSolve(this, 1)">Attempt solve</td>

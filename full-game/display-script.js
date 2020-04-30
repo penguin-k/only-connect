@@ -34,10 +34,21 @@ function hideHieroglyphSelect() {
 }
 
 function showMissingVowels() {
+  hideRound1Or2Boxes();
   document.getElementById("missing-vowels-holder").style.display = "block";
 }
 function hideMissingVowels() {
   document.getElementById("missing-vowels-holder").style.display = "none";
+}
+function hideRound4Question() {
+  document.getElementById("missing-vowels-question").style.display = "none";
+}
+function showRound4Question() {
+  document.getElementById("missing-vowels-question").style.display = "block";
+}
+function showRound4Category(category) {
+  hideRound4Question();
+  document.getElementById("missing-vowels-title").innerHTML = category;
 }
 
 function showRound1Or2Boxes() {
@@ -84,7 +95,7 @@ function loadNewRound2Question() {
 }
 //Loads a missing vowels question into the display screen
 function loadNewRound4Question(category, question) {
-  showMissingVowels();
+  showRound4Question();
   document.getElementById("missing-vowels-title").innerHTML = category;
   document.getElementById("missing-vowels-question").innerHTML = question;
 }
@@ -98,6 +109,11 @@ function revealClue(clueNumber) {
   if (activeRoundNumber == 2 && clueNumber == 3) {
     clueBoxesList[3].classList.add("clue-box-revealed");
   }
+}
+
+//Reveals the missing vowels answer
+function revealRound4Answer(answer) {
+  document.getElementById("missing-vowels-question").innerHTML = answer;
 }
 
 //Reveals all clues (not the answer)
@@ -220,11 +236,16 @@ function updateTeamScores(scores) {
 
 //Put a yellow border around the current team
 function switchActiveTeam(activeTeam) {
+  markNoActiveTeam();
+  document.getElementById("score-team-"+String(activeTeam)).classList.add("score-box-active");
+}
+
+//Remove active team markers
+function markNoActiveTeam() {
   var teamScoreBoxes = document.getElementsByClassName("score-box");
   for (let box of teamScoreBoxes) {
     box.classList.remove("score-box-active");
   }
-  document.getElementById("score-team-"+String(activeTeam)).classList.add("score-box-active");
 }
 
 //Sending and receiving messages
@@ -249,6 +270,13 @@ function receiveMessage(event) {
     switch (messageText) {
       case "newRound":
         activeRoundNumber = event.data.number;
+        if (activeRoundNumber == 4) {
+          showMissingVowels();
+          if (event.data.category !== undefined && event.data.category !== "") {
+            hideRound4Question();
+            showRound4Category(event.data.category);
+          }
+        }
         break;
       case "hieroglyphUpdate":
         showHieroglyphSelect();
@@ -270,6 +298,9 @@ function receiveMessage(event) {
       case "revealClue":
         hideHieroglyphSelect();
         revealClue(event.data.number);
+        break;
+      case "revealRound4Answer":
+        revealRound4Answer(event.data.answer);
         break;
       case "hideQuestionsRound1or2":
         hideRound1Or2Boxes();
@@ -302,6 +333,9 @@ function receiveMessage(event) {
         break;
       case "switchActiveTeam":
         switchActiveTeam(event.data.activeTeam);
+        break;
+      case "noActiveTeam":
+        markNoActiveTeam();
         break;
     }
   }
