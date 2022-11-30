@@ -70,27 +70,29 @@ body {
   margin: 0px;
 }
 #hieroglyph-two-reeds {
-  font-size: 120px;
+  font-size: 85px;
   font-weight: 700;
 }
 #hieroglyph-lion {
   position: relative;
   top: -54px;
-  font-size: 250px;
+  font-size: 175px;
 }
 #hieroglyph-twisted-flax {
   font-weight: 700;
+  font-size: 90px;
 }
 #hieroglyph-horned-viper {
-  font-size: 210px;
+  font-size: 160px;
   position: relative;
   top: -50px;
 }
 #hieroglyph-water {
   font-weight: 700;
+  font-size: 85px;
 }
 #hieroglyph-eye {
-  font-size: 150px;
+  font-size: 120px;
   position: relative;
   top: -16px;
 }
